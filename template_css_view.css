@@ -1,0 +1,15 @@
+div.dataplus_record, div.dataplus_comment{
+    margin-bottom: 2em;
+}
+
+div.dataplus_record table.record_template, div.dataplus_comment table.dataplus_comment_output {
+    border-top: 1px solid #ede9e0;
+}
+
+div.dataplus_record table.record_template tr, div.dataplus_comment table.dataplus_comment_output tr {
+    border-bottom: 1px solid #ede9e0;
+}
+
+div.dataplus_record_count, div.dataplus_record_navigation, div.dataplus_search_amend{
+    text-align: center;
+}

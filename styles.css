@@ -1,0 +1,64 @@
+div.dataplus_templatemenu{
+    width: 20%;
+    margin-top: 4em;
+    background:#DBEDFF;
+    background-position: top left;
+    background-repeat:no-repeat;
+    left: 2em;
+    float: left;
+}
+
+body#page-mod-dataplus-templates div.fitem {
+    float: right;
+    width: 70%;
+}
+
+div.dataplus_template_headerfooter {
+    clear: both;
+}
+
+div.dataplus_templatemenu ul{
+    list-style-type: none;
+}
+
+div.dataplus_templatemenu a{
+    color: #000000;
+    text-decoration: none;
+}
+
+div.dataplus_template_buttons{
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+div.dataplus_template_buttons input{
+    font-size: 0.9em;
+    width: 24%;
+}
+
+div .dataplus_search_amend {
+    text-align: center;
+}
+
+body#page-mod-dataplus-manage table.generaltable,
+div.dataplus_update_message,
+body#page-mod-dataplus-manage form.mform,
+body#page-mod-dataplus-manage div#dataplus_clear_msg {
+    margin-top: 2em;
+    margin-left: 10px;
+}
+
+div#dataplus_module_intro {
+    margin-left: 10px;
+}
+
+#page-mod-dataplus-manage textarea,
+#page-mod-dataplus-templates textarea {
+    width: 95%;
+    padding: 3px;
+}
+
+div.dataplus_instructions {
+    padding-top: 5px;
+}
