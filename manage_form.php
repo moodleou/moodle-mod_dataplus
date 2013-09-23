@@ -54,7 +54,7 @@ class dataplus_manage_form extends moodleform {
             $mform->addElement('static', 'br' . $i, '', '<br/>');
 
             $langfname = get_string('fieldname', 'dataplus');
-            $mform->addElement('text', 'fieldname' .  $i, $langfname, array('size'=>'64'));
+            $mform->addElement('text', 'fieldname' .  $i, $langfname, array('class'=>'dataplus_manage_field'));
 
             $options = $dataplusdb->get_field_types();
 

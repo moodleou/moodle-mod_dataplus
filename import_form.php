@@ -35,6 +35,6 @@ class dataplus_import_form extends moodleform {
         $mform->addElement('checkbox', 'remgroups', get_string('importremovegroup', 'dataplus'));
         $mform->setDefault('remgroups', 1);
 
-        $this->add_action_buttons(true, get_string('import', 'dataplus'));
+        $this->add_action_buttons(true, get_string('manage_import', 'dataplus'));
     }
 }

@@ -57,12 +57,12 @@ function dataplus_export() {
     }
 }
 
-dataplus_base_setup();
+dataplus_base_setup('/mod/dataplus/export.php');
 
 $strexp = get_string('export', 'dataplus');
 $exportlabel = (empty($dataplus->exporttablabel)) ? $strexp : $dataplus->exporttablabel;
 
-dataplus_page_setup('/mod/dataplus/export.php', dataplus_get_querystring_vars(), $exportlabel);
+dataplus_page_setup($exportlabel);
 
 $currenttab = 'export';
 

@@ -146,29 +146,26 @@ function dataplus_import() {
             $fpath = $zippath . '/longtext';
             $dataplusfilehelper->copy($fpath, $dataplusfilehelper->get_longtext_fileinfo(), array());
 
-            echo '<p>';
-            echo get_string('importcomplete', 'dataplus');
-            echo '<br/>';
-            echo '<a href='.$CFG->wwwroot.'/mod/dataplus/view.php?mode=view&id='.$id.'>';
-            echo get_string('viewdb', 'dataplus');
-            echo '</a>';
-            echo '</p>';
+            print html_writer::start_div('dataplus_import_complete');
+            print get_string('importcomplete', 'dataplus');
+            print html_writer::empty_tag('br');
+            print html_writer::tag('a', get_string('viewdb', 'dataplus'), array('href' => $CFG->wwwroot.'/mod/dataplus/view.php?mode=view&id='.$id));
+            print html_writer::end_div();
         } else {
             // If it's not valid, print an error message.
-            echo '<p>'.$valid.'</p>';
+            print html_writer::div($valid);
         }
     }
 
     $mform->display();
 }
 
-dataplus_base_setup();
-$path = '/mod/dataplus/import.php';
-dataplus_page_setup($path, dataplus_get_querystring_vars(), get_string('import', 'dataplus'));
+dataplus_base_setup('/mod/dataplus/import.php');
+dataplus_page_setup(get_string('manage_import', 'dataplus'));
 
 // Don't show the navigation tabs if we're in setup mode.
 if ($mode!='dbsetup') {
-    $currenttab = 'import';
+    $currenttab = 'manage';
     include('tabs.php');
 }
 

@@ -52,9 +52,10 @@ function dataplus_get_user_entries_count() {
 
 /**
  * Sets up globals used in DataPlus, checks course login and basic $PAGE settings
+ * @param string $filepath
  *
  */
-function dataplus_base_setup() {
+function dataplus_base_setup($filepath) {
     require_once('dataplus_file_helper.php');
     require_once('sqlite3_db_dataplus.php');
 
@@ -77,6 +78,10 @@ function dataplus_base_setup() {
     }
 
     $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+
+    $PAGE->set_context($context);
+    $PAGE->set_cm($cm);
+    $PAGE->set_url($filepath, dataplus_get_querystring_vars());
 
     require_course_login($COURSE->id, true, $cm);
 
@@ -111,9 +116,6 @@ function dataplus_base_setup() {
 
     $groupmode = groups_get_activity_groupmode($cm);
     $editingmodes = dataplus_get_edit_modes();
-
-    $PAGE->set_context($context);
-    $PAGE->set_cm($cm);
 }
 
 
@@ -137,15 +139,12 @@ function dataplus_base_close() {
  * Sets up the main globals used in dataplus and prints the header.
  * Also controls screens when a database needs setup actions
  */
-function dataplus_page_setup($filepath,
-                             $querystring,
-                             $pagetitle,
+function dataplus_page_setup($pagetitle,
                              $js=null,
                              $jsinit=null,
                              $css=null) {
     global $PAGE, $id, $mode, $cm, $COURSE, $dataplus, $CFG, $OUTPUT;
 
-    $PAGE->set_url($filepath, $querystring);
     $PAGE->set_title($pagetitle);
     $PAGE->set_heading($COURSE->fullname);
     $PAGE->requires->js('/mod/dataplus/dataplus.js');
@@ -1675,6 +1674,7 @@ function dataplus_create_sortarr_from_str($str) {
     for ($i=0; $i < count($orders); $i++) {
         $orderparts = explode(" ", $orders[$i]);
 
+        $arr[$orderparts[0]] = new stdClass();
         $arr[$orderparts[0]]->name = $orderparts[0];
 
         if (count($orderparts) == 2) {
@@ -1964,4 +1964,16 @@ function dataplus_remove_temp_files() {
         }
     }
     return $count;
+}
+
+
+/**
+ * Get the add record label
+ * @return string
+ */
+function dataplus_get_add_record_label() {
+    global $dataplus;
+    $labeldefault = get_string('addrecord', 'dataplus');
+    $labeluser = $dataplus->addrecordtablabel;
+    return (empty($labeluser)) ? $labeldefault : $labeluser;
 }

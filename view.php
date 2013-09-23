@@ -247,6 +247,8 @@ function dataplus_view_single_record($msg = null, $recordid = null) {
     }
 
     if (!is_null($recordid)) {
+        $parameters = array();
+        $parameters[0] = new stdClass();
         $parameters[0]->name = 'id';
         $parameters[0]->value = $recordid;
         $parameters[0]->operator ='equals';
@@ -925,10 +927,8 @@ function dataplus_view_page_setup($js = null, $jsinit = null, $css = null) {
     $userviewlabel = $dataplus->viewtablabel;
     $defviewlabel = get_string('view', 'dataplus');
     $viewlabel = (empty($userviewlabel)) ? $defviewlabel : $userviewlabel;
-    $url = '/mod/dataplus/view.php';
-    $qs = dataplus_get_querystring_vars();
 
-    dataplus_page_setup($url, $qs, $viewlabel, $js, $jsinit, $css);
+    dataplus_page_setup($viewlabel, $js, $jsinit, $css);
 
     $group = optional_param('group', null, PARAM_TEXT);
     $oldmode = optional_param('oldmode', 'view', PARAM_TEXT);
@@ -1076,6 +1076,8 @@ function dataplus_delete_comment($commenttemplate = null) {
     }
 
     // Get the record as it currently stands.
+    $parameters = array();
+    $parameters[0] = new stdClass();
     $parameters[0]->name = 'id';
     $parameters[0]->value = $updateid;
     $parameters[0]->operator ='equals';
@@ -1091,7 +1093,7 @@ function dataplus_delete_comment($commenttemplate = null) {
     $mform->display();
 }
 
-dataplus_base_setup();
+dataplus_base_setup('/mod/dataplus/view.php');
 
 $group = optional_param('group', 0, PARAM_TEXT);
 

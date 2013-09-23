@@ -21,7 +21,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$module->version  = 2012102602;  // The current module version (Date: YYYYMMDDXX).
-$module->requires = 2012062502;
+$module->version  = 2013092300;  // The current module version (Date: YYYYMMDDXX).
+$module->requires = 2013051402.00;
 $module->release  = '2.3 (Build: 2012062502)';
 $module->cron = (7*24*60*60);           // Period for cron to check this module (secs).

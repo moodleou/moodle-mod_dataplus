@@ -444,10 +444,8 @@ function dataplus_clear_data() {
 }
 
 
-dataplus_base_setup();
-
-$langmandb = get_string('manage_manage', 'dataplus');
-dataplus_page_setup('/mod/dataplus/manage.php', dataplus_get_querystring_vars(), $langmandb);
+dataplus_base_setup('/mod/dataplus/manage.php');
+dataplus_page_setup(get_string('manage_manage', 'dataplus'));
 
 // If we're in dbsetup mode, don't show navigational tabs.
 if ($mode!='dbsetup') {

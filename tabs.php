@@ -78,10 +78,7 @@ if ($viewcheck) {
 $tabvisible = $dataplus->addrecordtabvisible;
 if ($tabvisible !== '0' && isloggedin() && $editowncheck && ($groupcheck || $editcheck)) {
     $url = $CFG->wwwroot.'/mod/dataplus/view.php?id='.$cm->id.'&amp;mode=insert';
-    $labeldefault =get_string('addrecord', 'dataplus');
-    $labeluser = $dataplus->addrecordtablabel;
-    $label = (empty($labeluser)) ? $labeldefault : $labeluser;
-    $row[] = new tabobject('insert', $url, $label);
+    $row[] = new tabobject('insert', $url, dataplus_get_add_record_label());
 }
 
 if ($dataplus->exporttabvisible !== '0' && $viewcheck) {
@@ -92,42 +89,25 @@ if ($dataplus->exporttabvisible !== '0' && $viewcheck) {
     $row[] = new tabobject('export', $url, $label);
 }
 
-if (isloggedin() && has_capability('mod/dataplus:databaseedit', $context, $USER->id)) {
-    $url = $CFG->wwwroot.'/mod/dataplus/import.php?id='.$cm->id;
-    $label = get_string('import', 'dataplus');
-    $row[] = new tabobject('import', $url, $label);
-}
-
 $tabs[] = $row;
-
-$activetwo = null;
 
 if ($currenttab == 'templates' || $currenttab == 'manage') {
     if ($currenttab == 'templates') {
-        $list = array ('view', 'single', 'addrecord', 'hookshelp');
+        $list = array ('view' => 'templates', 'single' => 'templates', 'addrecord' => 'templates', 'hookshelp' => 'templates');
     } else if ($currenttab == 'manage') {
-        $list = array ('manage', 'cleardata');
+        $list = array ('manage' => 'manage', 'cleardata' => 'manage', 'import' => 'import');
     }
 
     $row = array();
     $selecttab ='';
 
-    foreach ($list as $l) {
+    foreach ($list as $l => $page) {
         $tabname = $currenttab.'_'.$l;
         $label = get_string($tabname, 'dataplus');
-        $row[] = new tabobject($tabname, $currenttab.".php?id=$id&amp;mode=$l", $label);
-
-        if ($l == $mode) {
-            $selecttab = $tabname;
-        }
-    }
-
-    if (empty($selecttab)) {
-        $selecttab = 'manage_manage';
+        $row[] = new tabobject($tabname, $page.".php?id=$id&amp;mode=$l", $label);
     }
 
     $tabs[] = $row;
-    $activetwo = array($selecttab);
 }
 
-print_tabs($tabs, $currenttab, null, $activetwo);
+print_tabs($tabs, $currenttab);

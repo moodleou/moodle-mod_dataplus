@@ -6,40 +6,40 @@
   <TABLES>
     <TABLE NAME="dataplus" COMMENT="main table">
       <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="course"/>
-        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="name"/>
-        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" PREVIOUS="course" NEXT="intro"/>
-        <FIELD NAME="intro" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" PREVIOUS="name" NEXT="introformat"/>
-        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="intro" NEXT="timeavailablefrom"/>
-        <FIELD NAME="timeavailablefrom" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="introformat" NEXT="timeavailableto"/>
-        <FIELD NAME="timeavailableto" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="timeavailablefrom" NEXT="requiredentries"/>
-        <FIELD NAME="requiredentries" TYPE="int" LENGTH="8" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="timeavailableto" NEXT="requiredentriestoview"/>
-        <FIELD NAME="requiredentriestoview" TYPE="int" LENGTH="8" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="requiredentries" NEXT="maxentries"/>
-        <FIELD NAME="maxentries" TYPE="int" LENGTH="8" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="requiredentriestoview" NEXT="maxentriesperuser"/>
-        <FIELD NAME="maxentriesperuser" TYPE="int" LENGTH="8" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="maxentries" NEXT="allowcomments"/>
-        <FIELD NAME="allowcomments" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="maxentriesperuser" NEXT="viewtablabel"/>
-        <FIELD NAME="viewtablabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" PREVIOUS="allowcomments" NEXT="viewtabvisible"/>
-        <FIELD NAME="viewtabvisible" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="viewtablabel" NEXT="singlerecordtablabel"/>
-        <FIELD NAME="singlerecordtablabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" PREVIOUS="viewtabvisible" NEXT="singlerecordtabvisible"/>
-        <FIELD NAME="singlerecordtabvisible" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="singlerecordtablabel" NEXT="searchtablabel"/>
-        <FIELD NAME="searchtablabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" PREVIOUS="singlerecordtabvisible" NEXT="searchtabvisible"/>
-        <FIELD NAME="searchtabvisible" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="searchtablabel" NEXT="addrecordtablabel"/>
-        <FIELD NAME="addrecordtablabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" PREVIOUS="searchtabvisible" NEXT="addrecordtabvisible"/>
-        <FIELD NAME="addrecordtabvisible" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="addrecordtablabel" NEXT="exporttablabel"/>
-        <FIELD NAME="exporttablabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" PREVIOUS="addrecordtabvisible" NEXT="exporttabvisible"/>
-        <FIELD NAME="exporttabvisible" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="exporttablabel" NEXT="savebuttonlabel"/>
-        <FIELD NAME="savebuttonlabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="text on the save button" PREVIOUS="exporttabvisible" NEXT="saveandviewbuttonlabel"/>
-        <FIELD NAME="saveandviewbuttonlabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="text on the save and view button" PREVIOUS="savebuttonlabel" NEXT="cancelbuttonlabel"/>
-        <FIELD NAME="cancelbuttonlabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="text on the cancel button" PREVIOUS="saveandviewbuttonlabel" NEXT="navigationlimit"/>
-        <FIELD NAME="navigationlimit" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="Limit of the number of links within navigation in a view" PREVIOUS="cancelbuttonlabel" NEXT="listperpage"/>
-        <FIELD NAME="listperpage" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="Number of entries to default perpage on list template" PREVIOUS="navigationlimit" NEXT="assessed"/>
-        <FIELD NAME="assessed" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="listperpage" NEXT="assesstimestart"/>
-        <FIELD NAME="assesstimestart" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="assessed" NEXT="assesstimefinish"/>
-        <FIELD NAME="assesstimefinish" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="assesstimestart" NEXT="scale"/>
-        <FIELD NAME="scale" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" NEXT="rssarticles" PREVIOUS="assesstimefinish"/>
-        <FIELD NAME="rssarticles" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="scale" NEXT="timemodified"/>
-        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="rssarticles" NEXT="version"/>
-        <FIELD NAME="version" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false" PREVIOUS="timemodified"/>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="intro" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timeavailablefrom" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timeavailableto" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="requiredentries" TYPE="int" LENGTH="8" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="requiredentriestoview" TYPE="int" LENGTH="8" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="maxentries" TYPE="int" LENGTH="8" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="maxentriesperuser" TYPE="int" LENGTH="8" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="allowcomments" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="viewtablabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false"/>
+        <FIELD NAME="viewtabvisible" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="singlerecordtablabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false"/>
+        <FIELD NAME="singlerecordtabvisible" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="searchtablabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false"/>
+        <FIELD NAME="searchtabvisible" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="addrecordtablabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false"/>
+        <FIELD NAME="addrecordtabvisible" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="exporttablabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false"/>
+        <FIELD NAME="exporttabvisible" TYPE="int" LENGTH="1" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="savebuttonlabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="text on the save button"/>
+        <FIELD NAME="saveandviewbuttonlabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="text on the save and view button"/>
+        <FIELD NAME="cancelbuttonlabel" TYPE="text" LENGTH="small" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="text on the cancel button"/>
+        <FIELD NAME="navigationlimit" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="Limit of the number of links within navigation in a view"/>
+        <FIELD NAME="listperpage" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="Number of entries to default perpage on list template"/>
+        <FIELD NAME="assessed" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="assesstimestart" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="assesstimefinish" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="scale" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="rssarticles" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="version" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="1" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

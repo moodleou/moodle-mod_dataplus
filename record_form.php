@@ -46,7 +46,7 @@ class dataplus_record_form extends moodleform {
 
         $mform = &$this->_form;
         // This forces the creation of a fieldset preventing validation errors.
-        $mform->addElement('header', 'addrecord', '');
+        $mform->addElement('header', 'addrecord', dataplus_get_add_record_label());
 
         if ($groupmode > 0 && has_capability('mod/dataplus:databaseedit',
             $context,
@@ -160,7 +160,7 @@ class dataplus_record_form extends moodleform {
             $fieldlabel = format_string($field->label);
 
             if ($fieldtype == 'smalltext' || $fieldtype == 'number') {
-                $mform->addElement('text', $field->name, $fieldlabel);
+                $mform->addElement('text', $field->name, $fieldlabel, array('class' => 'dataplus_record_field'));
             } else if ($fieldtype == 'longtext') {
                 $editoroptions = array('maxfiles' => EDITOR_UNLIMITED_FILES, 'trusttext'=>true);
                 $mform->addElement('editor', $field->name, $fieldlabel, null, $editoroptions);
@@ -208,13 +208,13 @@ class dataplus_record_form extends moodleform {
                 if ($fieldtype == 'image') {
                     $sname = $dataplusdb->get_supporting_field_name($field->name, $fieldtype);
                     $langsuppdesc = get_string('suppdesc', 'dataplus', $field->label);
-                    $mform->addElement('text', $sname, $langsuppdesc);
+                    $mform->addElement('text', $sname, $langsuppdesc, array('class' => 'dataplus_record_field'));
                 }
             } else if ($fieldtype == 'url') {
-                $mform->addElement('text', $field->name, format_string($field->label));
+                $mform->addElement('text', $field->name, format_string($field->label), array('class' => 'dataplus_record_field'));
                 $sname = $dataplusdb->get_supporting_field_name($field->name, $fieldtype);
                 $langsuppdesc = get_string('suppdesc', 'dataplus', $field->label);
-                $mform->addElement('text', $sname, $langsuppdesc);
+                $mform->addElement('text', $sname, $langsuppdesc, array('class' => 'dataplus_record_field'));
             } else if ($fieldtype == 'boolean') {
                 $langtrue = get_string('true', 'dataplus');
                 $langfal = get_string('false', 'dataplus');

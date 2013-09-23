@@ -96,7 +96,7 @@ class dataplus_file_helper {
         $inc = $dataplusdb->get_content_column_id($colname);
 
         if (empty($id)) {
-            $id = $dataplusdb->get_last_record_id();
+            $id = $dataplusdb->get_next_record_id();
         }
 
         return (int) $id . $this->idspacer . $inc;

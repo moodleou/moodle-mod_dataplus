@@ -109,6 +109,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
                            get_string('viewtablabel', 'dataplus'),
                            array('size'=>'20'));
         $mform->setDefault('viewtablabel', get_string('view', 'dataplus'));
+        $mform->setType('viewtablabel', PARAM_TEXT);
         $mform->addHelpButton('viewtablabel', 'tablabel', 'dataplus');
 
         $mform->addElement('select',
@@ -122,6 +123,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
                            get_string('singlerecordtablabel', 'dataplus'),
                            array('size'=>'20'));
         $mform->setDefault('singlerecordtablabel', get_string('single_record', 'dataplus'));
+        $mform->setType('singlerecordtablabel', PARAM_TEXT);
         $mform->addHelpButton('singlerecordtablabel', 'tablabel', 'dataplus');
 
         $mform->addElement('select',
@@ -135,6 +137,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
                            get_string('searchtablabel', 'dataplus'),
                            array('size'=>'20'));
         $mform->setDefault('searchtablabel', get_string('search', 'dataplus'));
+        $mform->setType('searchtablabel', PARAM_TEXT);
         $mform->addHelpButton('searchtablabel', 'tablabel', 'dataplus');
 
         $mform->addElement('select',
@@ -148,6 +151,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
                            get_string('addrecordtablabel', 'dataplus'),
                            array('size'=>'20'));
         $mform->setDefault('addrecordtablabel', get_string('addrecord', 'dataplus'));
+        $mform->setType('addrecordtablabel', PARAM_TEXT);
         $mform->addHelpButton('addrecordtablabel', 'tablabel', 'dataplus');
 
         $mform->addElement('select',
@@ -161,6 +165,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
                            get_string('exporttablabel', 'dataplus'),
                            array('size'=>'20'));
         $mform->setDefault('exporttablabel', get_string('export', 'dataplus'));
+        $mform->setType('exporttablabel', PARAM_TEXT);
         $mform->addHelpButton('exporttablabel', 'tablabel', 'dataplus');
 
         $mform->addElement('select',
@@ -174,6 +179,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
                            get_string('savebuttonlabel', 'dataplus'),
                            array('size'=>'20'));
         $mform->setDefault('savebuttonlabel', get_string('save', 'dataplus'));
+        $mform->setType('savebuttonlabel', PARAM_TEXT);
         $mform->addHelpButton('savebuttonlabel', 'savebuttonlabel', 'dataplus');
 
         $mform->addElement('text',
@@ -181,6 +187,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
                            get_string('saveandviewbuttonlabel', 'dataplus'),
                            array('size'=>'20'));
         $mform->setDefault('saveandviewbuttonlabel', get_string('saveandview', 'dataplus'));
+        $mform->setType('saveandviewbuttonlabel', PARAM_TEXT);
         $mform->addHelpButton('saveandviewbuttonlabel', 'saveandviewbuttonlabel', 'dataplus');
 
         $mform->addElement('text',
@@ -188,6 +195,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
                            get_string('cancelbuttonlabel', 'dataplus'),
                            array('size'=>'20'));
         $mform->setDefault('cancelbuttonlabel', get_string('cancel', 'dataplus'));
+        $mform->setType('cancelbuttonlabel', PARAM_TEXT);
         $mform->addHelpButton('cancelbuttonlabel', 'cancelbuttonlabel', 'dataplus');
 
         $this->standard_coursemodule_elements(array('groups'=>true,

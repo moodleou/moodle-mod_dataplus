@@ -54,11 +54,30 @@ div#dataplus_module_intro {
 }
 
 #page-mod-dataplus-manage textarea,
-#page-mod-dataplus-templates textarea {
-    width: 95%;
+#page-mod-dataplus-templates textarea,
+.dataplus_manage_field,
+.dataplus_record_field {
+    width: 95% !important;
     padding: 3px;
 }
 
 div.dataplus_instructions {
     padding-top: 5px;
+}
+
+#page-mod-dataplus-view .fitemtitle {
+    width: 20%;
+}
+#page-mod-dataplus-view .mform .fitem .felement,
+#page-mod-dataplus-view .mform .fitem.required .felement {
+    margin-left: 20%;
+}
+
+#page-mod-dataplus-import .mform {
+    padding-top: 30px;
+}
+
+.dataplus_import_complete {
+    padding-top: 30px;
+}
 }

@@ -417,11 +417,8 @@ function dataplus_show_template_instructions() {
 
 $strtemplates = get_string('templates', 'dataplus');
 
-dataplus_base_setup();
-dataplus_page_setup('/mod/dataplus/templates.php',
-                    dataplus_get_querystring_vars(),
-                    $strtemplates,
-                    '/mod/dataplus/templates_js.php');
+dataplus_base_setup('/mod/dataplus/templates.php');
+dataplus_page_setup($strtemplates, '/mod/dataplus/templates_js.php');
 
 $currenttab = 'templates';
 

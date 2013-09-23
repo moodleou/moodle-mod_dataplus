@@ -35,8 +35,9 @@ class sqlite3_db {
      * system if does not exist).
      * Sets the new_database variable if the database had to be created.
      *
-     * @param boolean $lock
-     * @param string $path
+     * @param boolean $write - is there an alteration to the db / should it be locked?
+     * @param string $path - alternate path to the db.
+     * @param boolean $import - is this being used for a database import.
      */
     public function __construct($write = false, $path = null, $import = false) {
         global $context, $CFG, $USER, $dataplusfilehelper, $dataplus;
