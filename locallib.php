@@ -77,7 +77,7 @@ function dataplus_base_setup($filepath) {
         print_error("Course module is incorrect");
     }
 
-    $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+    $context = context_module::instance($cm->id);
 
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);

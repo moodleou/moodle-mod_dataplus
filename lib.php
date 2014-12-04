@@ -106,7 +106,7 @@ function dataplus_delete_instance($id) {
     global $CFG;
 
     $cm = get_coursemodule_from_instance('dataplus', $id);
-    $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+    $context = context_module::instance($cm->id);
     $fs = get_file_storage();
     $fs->delete_area_files($context->id);
 
@@ -294,7 +294,7 @@ function dataplus_get_post_actions() {
  */
 function dataplus_cm_info_dynamic(cm_info $cm) {
     if (!has_capability('mod/dataplus:view',
-            get_context_instance(CONTEXT_MODULE, $cm->id))) {
+            context_module::instance($cm->id))) {
         $cm->uservisible = false;
         $cm->set_available(false);
     }
@@ -353,7 +353,7 @@ function dataplus_get_user_grades($dataplus, $userid=0) {
     $contextrecord = $DB->get_record_sql($sql,
         array('modulename'=>$modulename, 'moduleid'=>$moduleid), '*', MUST_EXIST);
     $contextid = $contextrecord->ctxid;
-    $context = get_context_instance_by_id($contextid);
+    $context = context::instance_by_id($contextid);
 
     $params = array();
     $params['contextid'] = $contextid;
@@ -556,7 +556,7 @@ function dataplus_rating_get_item_fields() {;
  * @return array an associative array of the user's rating permissions
  */
 function dataplus_rating_permissions($contextid, $component, $ratingarea) {
-    $context = get_context_instance_by_id($contextid, MUST_EXIST);
+    $context = context::instance_by_id($contextid, MUST_EXIST);
     if ($component != 'mod_dataplus' || $ratingarea != 'record') {
         return null;
     }
@@ -674,7 +674,7 @@ function dataplus_rating_validate($params) {
     }
 
     $cm = get_coursemodule_from_instance('dataplus', $dataplus->id, $dataplus->course, false, MUST_EXIST);
-    $context = get_context_instance(CONTEXT_MODULE, $cm->id, MUST_EXIST);
+    $context = context_module::instance($cm->id, MUST_EXIST);
 
     // If the supplied context doesnt match the item's context.
     if ($context->id != $params['context']->id) {
@@ -751,7 +751,7 @@ function dataplus_get_file_info($browser, $areas, $course, $cm, $dpcontext, $fil
         $itemid, $filepath, $filename) {
     global $CFG, $DB, $dataplusfilehelper, $dataplus, $context;
 
-    $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+    $context = context_module::instance($cm->id);
 
     if ($context->contextlevel != CONTEXT_MODULE) {
         return null;
