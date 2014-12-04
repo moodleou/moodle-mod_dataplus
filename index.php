@@ -34,7 +34,7 @@ if (! $course = $DB->get_record("course", array('id'=>$id))) {
 }
 
 require_course_login($course);
-$context = get_context_instance(CONTEXT_COURSE, $course->id);
+$context = context_course::instance($course->id);
 $PAGE->set_pagelayout('incourse');
 add_to_log($course->id, "dataplus", "view all", "index.php?id=$course->id", "");
 

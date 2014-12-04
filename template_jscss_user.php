@@ -39,7 +39,7 @@ if (! $dataplus = $DB->get_record("dataplus", array("id"=>$cm->instance))) {
     print_error("Course module is incorrect");
 }
 
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 
 if (! $cm = get_coursemodule_from_id('dataplus', $id)) {
     print_error("Course Module ID was incorrect");

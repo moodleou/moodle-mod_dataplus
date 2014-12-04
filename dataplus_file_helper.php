@@ -688,7 +688,7 @@ class dataplus_file_helper {
     public function get_draft_file_name($draftid) {
         global $USER;
 
-        $usercontext = get_context_instance(CONTEXT_USER, $USER->id);
+        $usercontext = context_user::instance($USER->id);
         $fs = get_file_storage();
         $files = $fs->get_area_files($usercontext->id, 'user', 'draft', $draftid);
 

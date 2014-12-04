@@ -34,7 +34,7 @@ require_once($CFG->libdir.'/filelib.php');
 $id = required_param('id', PARAM_INT);
 $mode = optional_param('mode', null, PARAM_TEXT);
 $cm = get_coursemodule_from_id('dataplus', $id);
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 
 if ($mode == 'complex' && !has_capability('mod/dataplus:downloadfull', $context, $USER->id)) {
     print_error("Export selections misset or you do not have the correct permissions to proceed");
