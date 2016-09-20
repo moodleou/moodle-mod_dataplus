@@ -15,9 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,17 +26,19 @@ require_once("$CFG->libdir/rsslib.php");
 require_once("$CFG->dirroot/course/lib.php");
 
 $id = required_param('id', PARAM_INT); // Course.
-$PAGE->set_url('/mod/dataplus/index.php', array('id'=>$id));
+$PAGE->set_url('/mod/dataplus/index.php', array('id' => $id));
 
-if (! $course = $DB->get_record("course", array('id'=>$id))) {
+if (! $course = $DB->get_record("course", array('id' => $id))) {
     print_error("Course ID is incorrect");
 }
 
 require_course_login($course);
-$context = get_context_instance(CONTEXT_COURSE, $course->id);
+$context = context_course::instance($course->id);
 $PAGE->set_pagelayout('incourse');
-add_to_log($course->id, "dataplus", "view all", "index.php?id=$course->id", "");
-
+$event = \mod_dataplus\event\course_module_instance_list_viewed::create(array(
+    'context' => $context
+));
+$event->trigger();
 
 $strdataplus = get_string("modulename", "dataplus");
 $strname = get_string("name");

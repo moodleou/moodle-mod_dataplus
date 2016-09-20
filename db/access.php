@@ -118,7 +118,7 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         ),
-        'clonepermissionsfrom' =>  'mod/dataplus:viewrating'
+        'clonepermissionsfrom' => 'mod/dataplus:viewrating'
     ),
 
     'mod/dataplus:viewallratings' => array(
@@ -131,7 +131,7 @@ $capabilities = array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         ),
-        'clonepermissionsfrom' =>  'mod/dataplus:viewrating'
+        'clonepermissionsfrom' => 'mod/dataplus:viewrating'
     ),
 
     // Ability to view the export screen and create exports.

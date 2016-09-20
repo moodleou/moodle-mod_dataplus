@@ -15,9 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
@@ -29,7 +28,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
 
         $mform =&$this->_form;
         $mform->addElement('header', 'general', get_string('general', 'form'));
-        $mform->addElement('text', 'name', get_string('name'), array('size'=>'64'));
+        $mform->addElement('text', 'name', get_string('name'), array('size' => '64'));
 
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
@@ -39,22 +38,22 @@ class mod_dataplus_mod_form extends moodleform_mod {
 
         $mform->addRule('name', null, 'required', null, 'client');
 
-        $this->add_intro_editor(false, get_string('intro', 'dataplus'));
+        $this->standard_intro_elements(get_string('intro', 'dataplus'));
 
         $mform->addElement('date_selector',
                            'timeavailablefrom',
                             get_string('availablefromdate',
                             'dataplus'),
-                            array('optional'=>true));
+            array('optional' => true));
         $mform->addElement('date_selector',
                            'timeavailableto',
                            get_string('availabletodate', 'dataplus'),
-                           array('optional'=>true));
+            array('optional' => true));
 
-        $sizes = array(0=>get_string('none'), 1=>1, 2=>2, 3=>3, 4=>4,
-                       5=>5, 6=>6, 7=>7, 8=>8, 9=>9, 10=>10, 15=>15,
-                       20=>20, 30=>30, 40=>40, 50=>50, 100=>100,
-                       200=>200, 300=>300, 400=>400, 500=>500, 1000=>1000);
+        $sizes = array(0 => get_string('none'), 1 => 1, 2 => 2, 3 => 3, 4 => 4,
+            5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10, 15 => 15,
+            20 => 20, 30 => 30, 40 => 40, 50 => 50, 100 => 100,
+            200 => 200, 300 => 300, 400 => 400, 500 => 500, 1000 => 1000);
 
         $mform->addElement('select',
                            'requiredentries',
@@ -87,7 +86,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
 
         $limits = array();
 
-        for ($i=3; $i<=25; $i = $i+2) {
+        for ($i = 3; $i <= 25; $i = $i + 2) {
             $limits[$i] = $i;
         }
 
@@ -107,7 +106,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
         $mform->addElement('text',
                            'viewtablabel',
                            get_string('viewtablabel', 'dataplus'),
-                           array('size'=>'20'));
+                           array('size' => '20'));
         $mform->setDefault('viewtablabel', get_string('view', 'dataplus'));
         $mform->setType('viewtablabel', PARAM_TEXT);
         $mform->addHelpButton('viewtablabel', 'tablabel', 'dataplus');
@@ -121,7 +120,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
         $mform->addElement('text',
                            'singlerecordtablabel',
                            get_string('singlerecordtablabel', 'dataplus'),
-                           array('size'=>'20'));
+                           array('size' => '20'));
         $mform->setDefault('singlerecordtablabel', get_string('single_record', 'dataplus'));
         $mform->setType('singlerecordtablabel', PARAM_TEXT);
         $mform->addHelpButton('singlerecordtablabel', 'tablabel', 'dataplus');
@@ -135,7 +134,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
         $mform->addElement('text',
                            'searchtablabel',
                            get_string('searchtablabel', 'dataplus'),
-                           array('size'=>'20'));
+                           array('size' => '20'));
         $mform->setDefault('searchtablabel', get_string('search', 'dataplus'));
         $mform->setType('searchtablabel', PARAM_TEXT);
         $mform->addHelpButton('searchtablabel', 'tablabel', 'dataplus');
@@ -149,7 +148,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
         $mform->addElement('text',
                            'addrecordtablabel',
                            get_string('addrecordtablabel', 'dataplus'),
-                           array('size'=>'20'));
+                           array('size' => '20'));
         $mform->setDefault('addrecordtablabel', get_string('addrecord', 'dataplus'));
         $mform->setType('addrecordtablabel', PARAM_TEXT);
         $mform->addHelpButton('addrecordtablabel', 'tablabel', 'dataplus');
@@ -163,7 +162,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
         $mform->addElement('text',
                            'exporttablabel',
                            get_string('exporttablabel', 'dataplus'),
-                           array('size'=>'20'));
+                           array('size' => '20'));
         $mform->setDefault('exporttablabel', get_string('export', 'dataplus'));
         $mform->setType('exporttablabel', PARAM_TEXT);
         $mform->addHelpButton('exporttablabel', 'tablabel', 'dataplus');
@@ -177,7 +176,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
         $mform->addElement('text',
                            'savebuttonlabel',
                            get_string('savebuttonlabel', 'dataplus'),
-                           array('size'=>'20'));
+                           array('size' => '20'));
         $mform->setDefault('savebuttonlabel', get_string('save', 'dataplus'));
         $mform->setType('savebuttonlabel', PARAM_TEXT);
         $mform->addHelpButton('savebuttonlabel', 'savebuttonlabel', 'dataplus');
@@ -185,7 +184,7 @@ class mod_dataplus_mod_form extends moodleform_mod {
         $mform->addElement('text',
                            'saveandviewbuttonlabel',
                            get_string('saveandviewbuttonlabel', 'dataplus'),
-                           array('size'=>'20'));
+                           array('size' => '20'));
         $mform->setDefault('saveandviewbuttonlabel', get_string('saveandview', 'dataplus'));
         $mform->setType('saveandviewbuttonlabel', PARAM_TEXT);
         $mform->addHelpButton('saveandviewbuttonlabel', 'saveandviewbuttonlabel', 'dataplus');
@@ -193,14 +192,14 @@ class mod_dataplus_mod_form extends moodleform_mod {
         $mform->addElement('text',
                            'cancelbuttonlabel',
                            get_string('cancelbuttonlabel', 'dataplus'),
-                           array('size'=>'20'));
+                           array('size' => '20'));
         $mform->setDefault('cancelbuttonlabel', get_string('cancel', 'dataplus'));
         $mform->setType('cancelbuttonlabel', PARAM_TEXT);
         $mform->addHelpButton('cancelbuttonlabel', 'cancelbuttonlabel', 'dataplus');
 
-        $this->standard_coursemodule_elements(array('groups'=>true,
-                                                    'groupings'=>true,
-                                                    'groupmembersonly'=>true));
+        $this->standard_coursemodule_elements(array('groups' => true,
+                                                    'groupings' => true,
+                                                    'groupmembersonly' => true));
 
         $this->add_action_buttons();
     }

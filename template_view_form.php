@@ -16,9 +16,8 @@
 
 /**
  * Moodle form for editing templates
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -86,30 +85,30 @@ class dataplus_template_view_form extends moodleform {
         $tophtml .= '</div>';
 
         $mform->addElement('html', $tophtml);
-        $mform->addElement('textarea', 'css', $strcss, array('rows'=>25, 'cols' => '60'));
-        $mform->addElement('textarea', 'javascript', $strjs, array('rows'=>25, 'cols' => '60'));
-        $mform->addElement('textarea', 'jsinit', $strjsinit, array('rows'=>4, 'cols' => '60'));
+        $mform->addElement('textarea', 'css', $strcss, array('rows' => 25, 'cols' => '60'));
+        $mform->addElement('textarea', 'javascript', $strjs, array('rows' => 25, 'cols' => '60'));
+        $mform->addElement('textarea', 'jsinit', $strjsinit, array('rows' => 4, 'cols' => '60'));
 
         if ($mode != 'addrecord') {
             $menu = dataplus_get_template_headerfooter_menu('header');
             $mform->addElement('html', $menu);
-            $mform->addElement($opteditor, 'header', $strhead, array('rows'=>12, 'cols' => '70'));
+            $mform->addElement($opteditor, 'header', $strhead, array('rows' => 12, 'cols' => '70'));
         }
 
         $mform->addElement('html', dataplus_get_template_record_menu($mode));
 
         $colcount = $dataplusdb->count_dataplus_database_query();
 
-        $attributes = array('rows'=>$colcount + 15,
+        $attributes = array('rows' => $colcount + 15,
                             'cols' => '60',
-                            'onclick'=>'datapluscursorPosition()',
-                            'onkeyup'=>'datapluscursorPosition()');
+                            'onclick' => 'datapluscursorPosition()',
+                            'onkeyup' => 'datapluscursorPosition()');
         $mform->addElement($opteditor, 'record', $strrecord, $attributes);
 
         if (dataplus_allow_comments()) {
             $mform->addElement('html', dataplus_get_template_comments_menu());
 
-            $attributes = array('rows'=>20, 'cols' => '60');
+            $attributes = array('rows' => 20, 'cols' => '60');
             $mform->addElement($opteditor, 'comments', $strcomments, $attributes);
         }
 
@@ -117,18 +116,18 @@ class dataplus_template_view_form extends moodleform {
             $menu = dataplus_get_template_headerfooter_menu('footer');
             $mform->addElement('html', $menu);
 
-            $attributes = array('rows'=>12, 'cols' => '60');
+            $attributes = array('rows' => 12, 'cols' => '60');
             $mform->addElement($opteditor, 'footer', $strfooter, $attributes);
         }
 
         if ($mode != 'addrecord') {
             $parameters = dataplus_get_restricted_groups_parameters();
             $columns = $dataplusdb->list_dataplus_table_columns_array(true, $parameters);
-            $columns = array_merge(array('na'=>get_string('na', 'dataplus')), $columns);
+            $columns = array_merge(array('na' => get_string('na', 'dataplus')), $columns);
 
             $mform->addElement('static', 'so', get_string('sortorder', 'dataplus'));
 
-            for ($i=1; $i<=dataplus_sort_order_limit(); $i++) {
+            for ($i = 1; $i <= dataplus_sort_order_limit(); $i++) {
                 $mform->addElement('select', 'sortorder'.$i, '', $columns);
 
                 $sortopts = array();

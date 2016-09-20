@@ -16,9 +16,8 @@
 
 /**
  * Serves javascript and CSS from templates.
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once("../../config.php");
@@ -35,23 +34,17 @@ if (! $cm = get_coursemodule_from_id('dataplus', $id)) {
     print_error("Course Module ID was incorrect");
 }
 
-if (! $dataplus = $DB->get_record("dataplus", array("id"=>$cm->instance))) {
+if (!$dataplus = $DB->get_record("dataplus", array("id" => $cm->instance))) {
     print_error("Course module is incorrect");
 }
 
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 
-if (! $cm = get_coursemodule_from_id('dataplus', $id)) {
-    print_error("Course Module ID was incorrect");
-}
-
-if (! $dataplus = $DB->get_record("dataplus", array("id"=>$cm->instance))) {
-    print_error("Course module is incorrect");
-}
-
-if (! $COURSE = $DB->get_record("course", array("id"=>$courseid))) {
+if (!$COURSE = $DB->get_record("course", array("id" => $courseid))) {
     print_error("Course is misconfigured");
 }
+
+require_course_login($COURSE->id, true, $cm);
 
 $dataplusfilehelper = new dataplus_file_helper($dataplus->id, $context);
 $dataplusdb = new sqlite3_db_dataplus();

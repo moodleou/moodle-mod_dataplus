@@ -17,9 +17,8 @@
 /**
  * Class for managing files, the Moodle repository, the file system
  * and temp files.
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -449,7 +448,7 @@ class dataplus_file_helper {
         }
 
         foreach ($files as $f) {
-            if ($from['filepath']!= '/' && $from['filepath'] != $f['filepath']) {
+            if ($from['filepath'] != '/' && $from['filepath'] != $f['filepath']) {
                 continue;
             }
 
@@ -508,7 +507,7 @@ class dataplus_file_helper {
                 $this->copy_filesystem_to_filearea($path, $to, $exclude);
             } else {
                 $hyphenpos = strpos($file, '-');
-                $to['filename'] = substr($file, $hyphenpos+1);
+                $to['filename'] = substr($file, $hyphenpos + 1);
                 $to['itemid'] = substr($file, 0, $hyphenpos);
 
                 $this->delete_file($to['filearea'], $to['filename'], $to['itemid']);
@@ -688,7 +687,7 @@ class dataplus_file_helper {
     public function get_draft_file_name($draftid) {
         global $USER;
 
-        $usercontext = get_context_instance(CONTEXT_USER, $USER->id);
+        $usercontext = context_user::instance($USER->id);
         $fs = get_file_storage();
         $files = $fs->get_area_files($usercontext->id, 'user', 'draft', $draftid);
 

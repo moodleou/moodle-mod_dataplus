@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$module->version  = 2013092300;  // The current module version (Date: YYYYMMDDXX).
-$module->requires = 2013051402.00;
-$module->release  = '2.3 (Build: 2012062502)';
-$module->cron = (7*24*60*60);           // Period for cron to check this module (secs).
+$plugin->version  = 2015050700;
+$plugin->requires = 2013051402.00;
+$plugin->release  = '2.3 (Build: 2012062502)';
+$plugin->outestssufficient = true;
+$plugin->component = 'mod_dataplus';

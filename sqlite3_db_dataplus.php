@@ -16,9 +16,8 @@
 
 /**
  * Class for performing DataPlus specific actions on a db.
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once("sqlite3_db.php");
@@ -37,6 +36,11 @@ class sqlite3_db_dataplus extends sqlite3_db {
     public function __construct($lock = false, $path = null, $import = false) {
         parent::__construct($lock, $path, $import);
 
+        if ($import) {
+            if (!$this->validate_database()) {
+                throw new Exception('The imported file is not a valid DataPlus database.');
+            }
+        }
         // If this database did not previously exist, add the supporting columns and tables required.
         if (!$this->table_exists('content')) {
             $this->setup_tables();
@@ -46,7 +50,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
 
         if ($version !== false) {
             if (!$this->upgrade($version)) {
-                print_error('Database upgrade failed.');
+                throw new Exception('DataPlus database upgrade failed.');
             }
         }
     }
@@ -112,15 +116,15 @@ class sqlite3_db_dataplus extends sqlite3_db {
 
         $column[3] = new stdClass();
         $column[3]->name = 'primary_key';
-        $column[3]->value =  1;
+        $column[3]->value = 1;
 
         $column[4] = new stdClass();
         $column[4]->name = 'autoincrement';
-        $column[4]->value =  1;
+        $column[4]->value = 1;
 
         $column[5] = new stdClass();
         $column[5]->name = 'not_null';
-        $column[5]->value =  1;
+        $column[5]->value = 1;
 
         $column[6] = new stdClass();
         $column[6]->name = 'table_name';
@@ -391,7 +395,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
      * @return boolean
      */
     private function upgrade($dbversion) {
-        if ($dbversion<1.1) {
+        if ($dbversion < 1.1) {
             $columns = array(new stdClass());
             $columns[0]->name = 'label';
             $columns[0]->value = get_string('id', 'dataplus');
@@ -423,7 +427,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
                 return $result;
             }
 
-            $result =  $this->add_column_query("templates", "js", "text");
+            $result = $this->add_column_query("templates", "js", "text");
 
             if (!$result) {
                 return $result;
@@ -443,7 +447,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
             }
         }
 
-        if ($dbversion<1.11) {
+        if ($dbversion < 1.11) {
             $result = $this->set_file_db_domain();
 
             if (!$result) {
@@ -451,7 +455,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
             }
         }
 
-        if ($dbversion<1.2) {
+        if ($dbversion < 1.2) {
             $result = $this->setup_comments_table();
 
             if (!$result) {
@@ -459,7 +463,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
             }
         }
 
-        if ($dbversion<1.201) {
+        if ($dbversion < 1.201) {
             $result = $this->add_column_query("templates", "comments", "text");
 
             if (!$result) {
@@ -467,7 +471,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
             }
         }
 
-        if ($dbversion<1.205) {
+        if ($dbversion < 1.205) {
             // Fix the content table if it has no primary key.
             $column = $this->get_column_info('content', 'id');
 
@@ -501,7 +505,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
          // without the sortorder column being added, at least on the tt build.
          // Therefore we seek to upgrade to 1.204 with a check to see if the sortorder
          // cols already there.
-        if ($dbversion<1.207) {
+        if ($dbversion < 1.207) {
             if (!parent::check_column_exists("templates", "sortorder")) {
                 $result = $this->add_column_query("templates", "sortorder", "text");
 
@@ -511,7 +515,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
             }
         }
 
-        if ($dbversion<1.208) {
+        if ($dbversion < 1.208) {
             $result = $this->add_column_query("templates", "jsinit", "text");
 
             if (!$result) {
@@ -519,7 +523,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
             }
         }
 
-        if ($dbversion<1.209) {
+        if ($dbversion < 1.209) {
             $columns1210 = array(new stdClass());
             $columns1210[0]->name = 'label';
             $columns1210[0]->value = get_string('groupid', 'dataplus');
@@ -772,8 +776,8 @@ class sqlite3_db_dataplus extends sqlite3_db {
      */
     public function get_combi_fields() {
         return array(
-            'url'=>'desc',
-            'image'=>'alt');
+            'url' => 'desc',
+            'image' => 'alt');
     }
 
 
@@ -958,8 +962,8 @@ class sqlite3_db_dataplus extends sqlite3_db {
 
 
     /**
-     * Checks the SQLite database loaded is valid for use in DataPlus.  It checks there are
-     * not more than 4 tables and that 'content' and 'templates' tables exist
+     * Checks the SQLite database loaded is valid for use in DataPlus.  It checks the 'content'
+     * and 'templates' tables exist
      *
      * @return mixed
      */
@@ -970,30 +974,17 @@ class sqlite3_db_dataplus extends sqlite3_db {
             return $validate;
         }
 
-        $tablecount = $this->count_database_query('sqlite_master');
-
-        if ($tablecount>6) {
-            return get_string('validate_toomanytables', 'dataplus');
-        }
-
         $contentexists = $this->table_exists('content');
 
         if (!$contentexists) {
-            return get_string('validate_table_content', 'dataplus');
+            return false;
         }
 
         $templateexists = $this->table_exists('templates');
 
         if (!$templateexists) {
-            return get_string('validate_table_templates', 'dataplus');
+            return false;
         }
-
-        $templateexists = $this->table_exists('supportinginfo');
-
-        if (!$templateexists) {
-            return get_string('validate_table_supportinginfo', 'dataplus');
-        }
-
         return true;
     }
 
@@ -1182,7 +1173,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
 
         $i++;
 
-        if (count($update)>0) {
+        if (count($update) > 0) {
             $parameters = array(new stdClass());
             $parameters[0]->name = 'id';
             $parameters[0]->value = $coldetails->id;
@@ -1786,7 +1777,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
             $this->delete_dataplus_record($parameters);
         }
 
-        $this->nextrecordid = ((int) $result->id)+1;
+        $this->nextrecordid = ((int)$result->id) + 1;
         return $this->nextrecordid;
     }
 
@@ -2031,7 +2022,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
         }
 
         if (!is_null($start)) {
-            $val = count($parameters) +1;
+            $val = count($parameters) + 1;
             $parameters[$val] = new stdClass();
             $parameters[$val]->name = 'id';
             $parameters[$val]->value = $start;
@@ -2077,7 +2068,7 @@ class sqlite3_db_dataplus extends sqlite3_db {
         $parameters[0]->name = 'form_field_type';
         $parameters[0]->value = $type;
 
-        $colsobjs =  $this->query_database('column', array('name'), $parameters);
+        $colsobjs = $this->query_database('column', array('name'), $parameters);
 
         $cols = array();
 

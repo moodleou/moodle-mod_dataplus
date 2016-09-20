@@ -16,9 +16,8 @@
 
 /**
  * Moodle form for db searches.
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
@@ -44,7 +43,7 @@ class dataplus_search_form extends moodleform {
      * @param array $sortchoices
      */
     public function define_sort_field($mform, $no, $sortchoices) {
-        $strsort = get_string('sort' . ($no+1), 'dataplus');
+        $strsort = get_string('sort' . ($no + 1), 'dataplus');
         $mform->addElement('select', 'sort' . $no, $strsort, $sortchoices);
 
         $fname = 'sort_options' . $no;
@@ -122,7 +121,7 @@ class dataplus_search_form extends moodleform {
         $searchurl = "{$CFG->wwwroot}/mod/dataplus/view.php?id={$id}&amp;mode=";
 
         // If on an advanced search, add a link to simple search and vice versa.
-        if ($formtype=='searchadvanced') {
+        if ($formtype == 'searchadvanced') {
             $str = get_string('simplesearch', 'dataplus');
             $link = '<a href="'.$searchurl.'search">'.$str.'</a>';
             $html = '<div class="dataplus_search_type">'.$link.'</div>';
@@ -135,7 +134,7 @@ class dataplus_search_form extends moodleform {
         }
 
         $textsearchtypes = array('smalltext', 'url', 'longtext');
-        $sortchoices = array (''=>'');
+        $sortchoices = array('' => '');
 
         // Itterate through each field and display according to the form_field_type.
         foreach ($fields as $field) {
@@ -257,13 +256,13 @@ class dataplus_search_form extends moodleform {
             $sorthtml = '<br/><strong>' . get_string('sort', 'dataplus') . '</strong>';
             $mform->addElement('static', 'break', '', $sorthtml);
 
-            if ((count($sortchoices)-1)<3) {
-                $levels = count($sortchoices)-1;
+            if ((count($sortchoices) - 1) < 3) {
+                $levels = count($sortchoices) - 1;
             } else {
                 $levels = 3;
             }
 
-            for ($i=0; $i<$levels; $i++) {
+            for ($i = 0; $i < $levels; $i++) {
                 $this->define_sort_field($mform, $i, $sortchoices);
             }
         }

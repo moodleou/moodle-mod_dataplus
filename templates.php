@@ -16,9 +16,8 @@
 
 /**
  * Displays screens for managing templates and processes actions.
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once("../../config.php");
@@ -185,12 +184,12 @@ function dataplus_get_form_values() {
     if (!empty($template->sortorder)) {
         $orders = explode(",", $template->sortorder);
 
-        for ($i=0; $i < count($orders); $i++) {
+        for ($i = 0; $i < count($orders); $i++) {
             $orderparts = explode(" ", $orders[$i]);
-            $defvals['sortorder'.($i+1)] = $orderparts[0];
+            $defvals['sortorder' . ($i + 1)] = $orderparts[0];
 
             if (count($orderparts) == 2) {
-                $defvals['sortoption'.($i+1)] = $orderparts[1];
+                $defvals['sortoption' . ($i + 1)] = $orderparts[1];
             }
         }
     }
@@ -387,7 +386,7 @@ function dataplus_resolve_sort_order($form) {
         $sortoptionname = "sortoption" . $i;
 
         if ($form->$sortordername != 'na') {
-            if (strlen($sortorder)>0) {
+            if (strlen($sortorder) > 0) {
                 $sortorder .= ',';
             }
 

@@ -17,9 +17,8 @@
 /**
  * Class for undertaking general actions on a db (queries, structure
  * changes, etc).
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class sqlite3_db {
@@ -29,6 +28,15 @@ class sqlite3_db {
     private $temppath;
     private $write;
     private $import;
+
+    /**
+     * Maximum number version field can store.
+     */
+    const DATAPLUS_VERSIONMAX = 32767;
+    /**
+     * Range of version numbers to search for load balanced system.
+     */
+    const DATAPLUS_VERSIONSEARCHSIZE = 11;
 
     /**
      * Create a PDO connection to an SQLite database (which is created in the file
@@ -46,7 +54,7 @@ class sqlite3_db {
             if (!$this->database_lock()) {
                 global $id;
                 $url = $CFG->wwwroot.'/mod/dataplus/view.php?mode=view&amp;id='.$id;
-                print_error(get_string('lockerror', 'dataplus'), $url);
+                print_error('lockerror', 'dataplus', $url);
             }
         }
 
@@ -80,6 +88,10 @@ class sqlite3_db {
         if ($this->import ||
             (file_exists($this->tempdbpath) && $this->write && $this->database_locked())) {
             $dataplus->version++;
+            // If about to hit DB field length limit loop back to 2.
+            if ($dataplus->version > self::DATAPLUS_VERSIONMAX) {
+                $dataplus->version = 2;
+            }
             $this->fileinfo['filename'] = 'dataplus_db'.$dataplus->version.'.sqlite';
             $copy = $dataplusfilehelper->copy($this->tempdbpath, $this->fileinfo);
             if ($copy) {
@@ -146,25 +158,26 @@ class sqlite3_db {
         // Let's sleep and look a little (repeating the earlier check is intentional)...
         if (empty($file)) {
             sleep(1);
-            $max = $dataplus->version + 10;
-            while ($dataplus->version < $max) {
-                $this->fileinfo['filename'] = 'dataplus_db'.$dataplus->version.'.sqlite';
+            // Check next versions remembering to loop back around once DATAPLUS_VERSIONMAX hit.
+            $start = $dataplus->version;
+            for ($i = 0; $i <= self::DATAPLUS_VERSIONSEARCHSIZE; $i++) {
+                $dataplus->version = ($i + $start) % self::DATAPLUS_VERSIONMAX;
+                $this->fileinfo['filename'] = 'dataplus_db' . $dataplus->version . '.sqlite';
                 $file = $fs->get_file($this->fileinfo['contextid'],
-                        $this->fileinfo['component'],
-                        $this->fileinfo['filearea'],
-                        $this->fileinfo['itemid'],
-                        $this->fileinfo['filepath'],
-                        $this->fileinfo['filename']);
+                    $this->fileinfo['component'],
+                    $this->fileinfo['filearea'],
+                    $this->fileinfo['itemid'],
+                    $this->fileinfo['filepath'],
+                    $this->fileinfo['filename']);
                 if (!empty($file)) {
                     break;
                 }
-                $dataplus->version++;
             }
         }
         if (!empty($file)) {
             return $file->copy_content_to($this->tempdbpath);
         }
-        add_to_log($COURSE->id, 'dataplus', 'database not found');
+
         return false;
     }
 
@@ -270,8 +283,8 @@ class sqlite3_db {
         if ($file) {
             $date = (int) $file->get_content();
 
-            if ($date > time()-120) {
-                while ($date > time()-120) {
+            if ($date > time() - 120) {
+                while ($date > time() - 120) {
                     sleep(5);
                     $date = (int) $file->get_content();
                 }
@@ -401,7 +414,7 @@ class sqlite3_db {
             return true;
         }
 
-        return get_string('validate_table_column', 'dataplus');
+        return false;
     }
 
 
@@ -439,7 +452,7 @@ class sqlite3_db {
             $type = $column->type;
             $columnssql .= " {$type}";
 
-            if (isset($column->primary_key) && $column->primary_key==true) {
+            if (isset($column->primary_key) && $column->primary_key == true) {
                 $columnssql .= " PRIMARY KEY";
             }
 
@@ -447,7 +460,7 @@ class sqlite3_db {
                 $columnssql .= " AUTOINCREMENT";
             }
 
-            if (isset($column->not_null) && $column->not_null==true) {
+            if (isset($column->not_null) && $column->not_null == true) {
                 $columnssql .= " NOT NULL";
             }
         }
@@ -491,7 +504,7 @@ class sqlite3_db {
         $parameters[0]->value = $tablename;
         $parameters[0]->operator = 'equals';
 
-        if (count($orgparams)>0) {
+        if (count($orgparams) > 0) {
             $parameters[0]->sub = $orgparams;
         }
 
@@ -594,6 +607,7 @@ class sqlite3_db {
         $parameters = array(new stdClass());
         $parameters[0]->name = 'name';
         $parameters[0]->value = $name;
+        $parameters[0]->operator = 'equals';
         $result = $this->query_database('column', $columns, $parameters);
 
         if (empty($result)) {
@@ -794,7 +808,7 @@ class sqlite3_db {
      * @param obj $columndetails
      * @return mixed
      */
-   protected function alter_column($tablename, $columndetails) {
+    protected function alter_column($tablename, $columndetails) {
         $update = array();
         $i = 0;
         $storedcolumn = $this->get_column_details($columndetails->id);
@@ -823,11 +837,11 @@ class sqlite3_db {
 
         $result = $this->alter_column_query($tablename, $columndetails);
 
-        if ($result === "COLUMNEXISTS"  || $result === false) {
+        if ($result === "COLUMNEXISTS" || $result === false) {
             return $result;
         }
 
-        if (count($update)==0) {
+        if (count($update) == 0) {
             return 'NOTHINGTODO';
         }
 
@@ -838,7 +852,7 @@ class sqlite3_db {
 
         $parameters[1] = new stdClass();
         $parameters[1]->name = 'table_name';
-        $parameters[1]->value  = 'content';
+        $parameters[1]->value = 'content';
         $parameters[1]->operator = 'equals';
 
         $result = $this->update_record('column', $update, $parameters);
@@ -1135,7 +1149,7 @@ class sqlite3_db {
 
                 $i++;
 
-                if ($i<count($order)) {
+                if ($i < count($order)) {
                     $sql .= ',';
                 }
             }

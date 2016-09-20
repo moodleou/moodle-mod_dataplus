@@ -16,9 +16,8 @@
 
 /**
  * Supporting libraries for DataPlus
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -59,31 +58,25 @@ function dataplus_base_setup($filepath) {
     require_once('dataplus_file_helper.php');
     require_once('sqlite3_db_dataplus.php');
 
-    global $PAGE, $SESSION, $DB, $id, $mode, $cm, $COURSE, $dataplus, $dataplusfilehelper;
+    global $PAGE, $SESSION, $DB, $id, $mode, $cm, $dataplus, $dataplusfilehelper;
     global $dataplusdb, $context, $currentgroup, $groupmode, $editingmodes;
 
     $id = required_param('id', PARAM_INT);
     $mode = optional_param('mode', null, PARAM_TEXT);
 
-    if (! $cm = get_coursemodule_from_id('dataplus', $id)) {
-        print_error("Course Module ID was incorrect");
+    list($course, $cm) = get_course_and_cm_from_cmid($id, 'dataplus');
+
+    if (! $dataplus = $DB->get_record("dataplus", array("id" => $cm->instance))) {
+        print_error('invalidcoursemodule');
     }
 
-    if (! $COURSE = $DB->get_record("course", array("id"=>$cm->course))) {
-        print_error("Course is misconfigured");
-    }
-
-    if (! $dataplus = $DB->get_record("dataplus", array("id"=>$cm->instance))) {
-        print_error("Course module is incorrect");
-    }
-
-    $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+    $context = context_module::instance($cm->id);
 
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_url($filepath, dataplus_get_querystring_vars());
 
-    require_course_login($COURSE->id, true, $cm);
+    require_course_login($course->id, true, $cm);
 
     // Instantiate the file helper and make sure temp folder is clear.
     $dataplusfilehelper = new dataplus_file_helper($dataplus->id, $context);
@@ -293,6 +286,7 @@ function dataplus_required_entries_reminders() {
         }
 
         if ($entries < $dataplus->requiredentriestoview) {
+            $additions = new stdClass;
             $additions->total = $dataplus->requiredentriestoview;
             $additions->created = $entries;
 
@@ -348,7 +342,7 @@ function dataplus_check_groups($item, $editing = false, $printerror = false) {
 
     if ($printerror) {
         $url = $CFG->wwwroot.'/mod/dataplus/view.php?mode=view&amp;id=' . $id;
-        print_error(get_string('groupmember', 'dataplus'), $url);
+        print_error('groupmember', 'dataplus', $url);
     }
 
     return false;
@@ -439,13 +433,72 @@ function dataplus_get_group_name($id) {
  * @param string $action
  */
 function dataplus_log($action) {
-    global $COURSE, $USER, $cm;
+    global $PAGE;
 
-    if (is_null($cm)) {
+    if (empty($PAGE->cm->instance)) {
         return;
     }
 
-    add_to_log($COURSE->id, 'dataplus', $action, $_SERVER['REQUEST_URI'], '', $cm->id, $USER->id);
+    $url = $_SERVER['REQUEST_URI']; // Legacy logging only.
+    $params = array(
+        'objectid' => $PAGE->cm->instance,
+        'context' => $PAGE->context,
+        'other' => array('itemurl' => $url)
+    );
+    switch ($action) {
+        case 'view':
+            $event = \mod_dataplus\event\data_viewed::create($params);
+            $event->trigger();
+            break;
+        case 'createcolumn':
+            $event = \mod_dataplus\event\column_created::create($params);
+            $event->trigger();
+            break;
+        case 'editcolumn':
+            $event = \mod_dataplus\event\column_edited::create($params);
+            $event->trigger();
+            break;
+        case 'deletecolumn':
+            $event = \mod_dataplus\event\column_deleted::create($params);
+            $event->trigger();
+            break;
+        case 'cleardata':
+            $event = \mod_dataplus\event\data_cleared::create($params);
+            $event->trigger();
+            break;
+        case 'templatesaved':
+            $event = \mod_dataplus\event\template_saved::create($params);
+            $event->trigger();
+            break;
+        case 'update':
+            $event = \mod_dataplus\event\data_updated::create($params);
+            $event->trigger();
+            break;
+        case 'insert':
+            $event = \mod_dataplus\event\data_inserted::create($params);
+            $event->trigger();
+            break;
+        case 'delete':
+            $event = \mod_dataplus\event\data_deleted::create($params);
+            $event->trigger();
+            break;
+        case 'search':
+            $event = \mod_dataplus\event\data_searched::create($params);
+            $event->trigger();
+            break;
+        case 'update comment':
+            $event = \mod_dataplus\event\comment_updated::create($params);
+            $event->trigger();
+            break;
+        case 'insert comment':
+            $event = \mod_dataplus\event\comment_inserted::create($params);
+            $event->trigger();
+            break;
+        case 'delete comment':
+            $event = \mod_dataplus\event\comment_deleted::create($params);
+            $event->trigger();
+            break;
+    }
 }
 
 
@@ -466,7 +519,7 @@ function dataplus_get_default_view_template($usenames = false) {
     $parameters = dataplus_get_restricted_groups_parameters();
     $fields = $dataplusdb->list_dataplus_table_columns(false, $parameters);
 
-    if (count($fields)==0) {
+    if (count($fields) == 0) {
         return '';
     }
 
@@ -584,7 +637,7 @@ function dataplus_get_default_addrecord_template($usenames = false, $mode = 'add
     $parameters = dataplus_get_restricted_groups_parameters();
     $fields = $dataplusdb->list_dataplus_table_columns(false, $parameters);
 
-    if (count($fields)==0) {
+    if (count($fields) == 0) {
         return '';
     }
 
@@ -1025,7 +1078,7 @@ function dataplus_print_template_output($template, $results, $clearactions = fal
                     }
                 }
 
-                $value = "<img src=\"{$path}\" alt=\"{$alt}\" title=\"{$alt}\" />";
+                $value = "<img src=\"{$path}\" class=\"dataplus_image_field\" alt=\"{$alt}\" title=\"{$alt}\" />";
             } else if ($formfieldtype == 'file' && !empty($value)) {
                 $path = $dataplusfilehelper->get_file_file_path($value, $result->id, $name);
                 $value = "<a href=\"{$path}\">".$value."</a>";
@@ -1043,7 +1096,7 @@ function dataplus_print_template_output($template, $results, $clearactions = fal
                     $label = $value;
                 }
 
-                if (strtolower(substr($value, 0, 7)) != 'http://') {
+                if (strtolower(substr($value, 0, 7)) != 'http://' && strtolower(substr($value, 0, 8)) != 'https://') {
                     $value = 'http://' . $value;
                 }
 
@@ -1057,13 +1110,13 @@ function dataplus_print_template_output($template, $results, $clearactions = fal
                 }
             } else if ($formfieldtype == 'longtext') {
                     $itemid = $dataplusfilehelper->get_itemid($name, $result->id);
-                    $value= format_text($value, FORMAT_MOODLE);
                     $value = file_rewrite_pluginfile_urls($value,
                                                  'pluginfile.php',
                                                  $context->id,
                                                  'mod_dataplus',
                                                  $formfieldtype,
                                                  $itemid);
+                    $value = format_text($value, FORMAT_MOODLE);
             }
 
             $recordtemplate = str_replace("[[{$name}]]", $value, $recordtemplate);
@@ -1142,7 +1195,7 @@ function dataplus_print_template_comments_output($template,
         $raw = $dataplusdb->get_comment($single, dataplus_get_restricted_groups_parameters());
     }
 
-    $output .="<a name=\"comments\"></a>";
+    $output .= "<a name=\"comments\"></a>";
 
     if (empty($raw)) {
         return $output;
@@ -1247,7 +1300,7 @@ function dataplus_print_record_navigation($parameters = null, $colparameters = a
     $pagestart = dataplus_get_page_start();
 
     // Find out the number of pages.
-    $pages = intval($count/$pagelimit);
+    $pages = intval($count / $pagelimit);
 
     // If the number of pages is higher, up the number of pages by 1.
     if ($count % $pagelimit) {
@@ -1262,7 +1315,7 @@ function dataplus_print_record_navigation($parameters = null, $colparameters = a
     }
 
     // Check whether there is somewhere to go forwards to...
-    if (((($pagestart+$pagelimit) / $pagelimit) < $pages) && $pages != 1) {
+    if (((($pagestart + $pagelimit) / $pagelimit) < $pages) && $pages != 1) {
         $nextpage = $pagestart + $pagelimit;
     } else {
         $nextpage = null;
@@ -1296,24 +1349,24 @@ function dataplus_print_record_navigation($parameters = null, $colparameters = a
         // Otherwise the number of the current page should be central on the navigation list,
         // so work out what (limit -1)/2 is ($navigationlimit is always an odd number)...
         $page = $pagestart / $pagelimit;
-        $diff = (($navigationlimit-1)/2);
+        $diff = (($navigationlimit - 1) / 2);
 
         // Then set the start to be the current page minus the diff and the stop to be the
         // current page + diff...
         $start = $page - $diff;
-        $stop  = ($page + $diff)+1;
+        $stop = ($page + $diff) + 1;
 
         // If the $page - $start is less than zero or $stop is greater than the number of pages,
         // then the page number cannot be central
         // and display the number of pages set in the limit
         // so abandon the attempt and set the start to 0 and the stop to the limit.
 
-        if ($start<0) {
+        if ($start < 0) {
             $start = 0;
             $stop = $navigationlimit;
         }
 
-        if ($stop>$pages) {
+        if ($stop > $pages) {
             $start = $start - ($stop - $pages);
             $stop = $pages;
         }
@@ -1323,7 +1376,7 @@ function dataplus_print_record_navigation($parameters = null, $colparameters = a
 
         $class = 'dataplus_nav_first';
 
-        if ($pagestart>0) {
+        if ($pagestart > 0) {
             $output .= '<span class="'.$class.'"><a href="'.$url.'0">'.$langfirst.'</a> </span>';
         } else {
             $output .= '<span class="'.$class.'">'.$langfirst.' </span>';
@@ -1342,13 +1395,14 @@ function dataplus_print_record_navigation($parameters = null, $colparameters = a
     $output .= "&nbsp;";
 
     $class = 'dataplus_nav_page';
+    $classcurrent = ' dataplus_current_page';
 
-    for ($i=$start; $i<$stop; $i++) {
+    for ($i = $start; $i < $stop; $i++) {
         $start = $i * $pagelimit;
-        $pageno = $i+1;
+        $pageno = $i + 1;
 
         if ($pagestart == $start) {
-            $output .= '<span class="'.$class.'">'.$pageno.' </span>';
+            $output .= '<span class="'.$class.$classcurrent.'">'.$pageno.' </span>';
         } else {
             $output .= '<span class="'.$class.'"><a href="'.$url.$start.'">'.$pageno.'</a> </span>';
         }
@@ -1398,9 +1452,9 @@ function dataplus_print_record_count($parameters = null) {
     }
 
     $pagestart = dataplus_get_page_start() + 1;
-    $pageend = $pagestart + ($limit-1);
+    $pageend = $pagestart + ($limit - 1);
 
-    if ($pageend>$count) {
+    if ($pageend > $count) {
         $pageend = $count;
     }
 
@@ -1473,7 +1527,7 @@ function dataplus_print_delete_comment($cui) {
  * @return string
  */
 function dataplus_get_comment_link($type, $typeno, $cui, $name = null) {
-    global $cm, $CFG;
+    global $cm, $CFG, $OUTPUT;
 
     $ps = optional_param('ps', 0, PARAM_INT);
     $ri = optional_param('ri', null, PARAM_INT);
@@ -1499,9 +1553,8 @@ function dataplus_get_comment_link($type, $typeno, $cui, $name = null) {
         }
     }
 
-    $img = '<img src="'.$CFG->wwwroot.'/pix/t/'.$type.'.gif" class="iconsmall" alt="'.$label.'" />';
-
-    return '<a href="'.$url.$qs.'">'.$img.'</a>';
+    $icon = new pix_icon('t/'.$type, $label, '', array('class' => 'iconsmall'));
+    return $OUTPUT->action_icon($url.$qs, $icon);
 }
 
 
@@ -1522,7 +1575,7 @@ function dataplus_create_record_icon($action,
                                      $ui,
                                      $creatorid,
                                      $clearactions = false) {
-    global $id, $CFG, $USER, $context, $mode, $groupmode, $currentgroup;
+    global $id, $CFG, $USER, $OUTPUT, $context, $mode, $groupmode, $currentgroup;
 
     $ri = optional_param('ri', 0, PARAM_INT);
 
@@ -1540,7 +1593,7 @@ function dataplus_create_record_icon($action,
 
     $capcheck = has_capability('mod/dataplus:databaseedit', $context, $USER->id);
 
-    if ($groupmode>0 && $currentgroup>0 && !groups_is_member($currentgroup) && !$capcheck) {
+    if ($groupmode > 0 && $currentgroup > 0 && !groups_is_member($currentgroup) && !$capcheck) {
         $clearactions = true;
     }
 
@@ -1558,9 +1611,8 @@ function dataplus_create_record_icon($action,
     }
 
     if (!$clearactions) {
-        $imageurl = $CFG->wwwroot.'/pix/t/'.$action.'.gif';
-        $irep = '<img src="' . $imageurl . '" class="iconsmall" alt="' . $str . '" />';
-        $rep = '<a title="'.$str.'" href="'.$url.'">'.$irep.'</a>&nbsp;';
+        $icon = new pix_icon('t/'.$action, $str, '', array('class' => 'iconsmall'));
+        $rep = $OUTPUT->action_icon($url, $icon);
     } else {
         $rep = '';
     }
@@ -1652,7 +1704,7 @@ function dataplus_sort_order_limit() {
     $columns = $dataplusdb->list_dataplus_table_columns_array(true, $parameters);
     $nocols = count($columns);
 
-    if ($nocols>5) {
+    if ($nocols > 5) {
         $nocols = 5;
     }
 
@@ -1665,17 +1717,20 @@ function dataplus_sort_order_limit() {
  * @param string $str
  */
 function dataplus_create_sortarr_from_str($str) {
+    global $dataplusdb;
+
     if (empty($str)) {
         return null;
     }
 
     $orders = explode(",", $str);
 
-    for ($i=0; $i < count($orders); $i++) {
+    for ($i = 0; $i < count($orders); $i++) {
         $orderparts = explode(" ", $orders[$i]);
 
         $arr[$orderparts[0]] = new stdClass();
         $arr[$orderparts[0]]->name = $orderparts[0];
+        $arr[$orderparts[0]]->type = $dataplusdb->get_column_details_by_name($orderparts[0])->type;
 
         if (count($orderparts) == 2) {
             $arr[$orderparts[0]]->sort = $orderparts[1];
@@ -1934,7 +1989,7 @@ function dataplus_remove_temp_files() {
     global $CFG;
     require_once($CFG->libdir . '/filelib.php');
     $count = 0;
-    $time = time() - 60*60*24; // 1 day ago.
+    $time = time() - 60 * 60 * 24; // 1 day ago.
     $temppath = $CFG->dataroot . '/temp';
     if (!file_exists($temppath)) {
         // Nothing to do.

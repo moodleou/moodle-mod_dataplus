@@ -16,9 +16,8 @@
 
 /**
  * Navigation tabs
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -99,7 +98,7 @@ if ($currenttab == 'templates' || $currenttab == 'manage') {
     }
 
     $row = array();
-    $selecttab ='';
+    $selecttab = '';
 
     foreach ($list as $l => $page) {
         $tabname = $currenttab.'_'.$l;

@@ -16,9 +16,8 @@
 
 /**
  * Generates screens for managing dbs and processes activity
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once("../../config.php");
@@ -31,7 +30,7 @@ require_once($CFG->libdir.'/filelib.php');
  * @param string $msg
  */
 function dataplus_manage($msg = null) {
-    global $dataplusdb, $CFG, $id, $groupmode;
+    global $dataplusdb, $CFG, $id, $groupmode, $OUTPUT;
 
     require_once('manage_form.php');
 
@@ -64,14 +63,14 @@ function dataplus_manage($msg = null) {
         // If there are no fields in the database, check that none of the new fields have
         // the same name as each other.
         if (empty($columns)) {
-            for ($i=0; $i<$fieldno; $i++) {
+            for ($i = 0; $i < $fieldno; $i++) {
                 $varname = 'fieldname' . $i;
-                $v = $i+1;
+                $v = $i + 1;
 
-                while ($v<$fieldno) {
+                while ($v < $fieldno) {
                     $varname2 = 'fieldname'.$v;
 
-                    if ($form->$varname2!='' && $form->$varname == $form->$varname2) {
+                    if ($form->$varname2 != '' && $form->$varname == $form->$varname2) {
                         $exists = 'FORMFIELDSSAME';
                         break;
                     }
@@ -105,10 +104,10 @@ function dataplus_manage($msg = null) {
             $msg = get_string('labelexists', 'dataplus');
             echo '<div class = "dataplus_update_message">'.$msg.'</div>';
         } else if ($exists == 'FORMFIELDSSAME') {
-            $msg =  get_string('twosame', 'dataplus');
+            $msg = get_string('twosame', 'dataplus');
             echo '<div class = "dataplus_update_message">'.$msg.'</div>';
         } else if ($exists == 'FIELDRESERVED') {
-            $msg =  get_string('reserved', 'dataplus', $name);
+            $msg = get_string('reserved', 'dataplus', $name);
             echo '<div class = "dataplus_update_message">'.$msg.'</div>';
         } else {
             $i = 0;
@@ -180,14 +179,13 @@ function dataplus_manage($msg = null) {
 
         foreach ($columns as $column) {
             if (dataplus_check_groups($column, true)) {
-                $manageurl = 'manage.php?id='.$id.'&amp;mode=edit&amp;fid='.$column->id;
-                $managesrc = $CFG->wwwroot.'/pix/t/edit.gif';
-                $deleteurl = 'manage.php?id='.$id.'&amp;mode=delete&amp;fid='.$column->id;
-                $deletesrc = $CFG->wwwroot.'/pix/t/delete.gif';
-                $icons = '<a title="'.$langedit.'" href="'.$manageurl.'">
-                          <img src="'.$managesrc.'" class="iconsmall" alt="'.$langedit.'" /></a>
-                          <a title="'.$langdelete.'" href="'.$deleteurl.'">
-                          <img src="'.$deletesrc.'" class="iconsmall" alt="'.$langdelete.'" /></a>';
+                $icon = new pix_icon('t/edit', $langedit, '', array('class' => 'iconsmall'));
+                $url = 'manage.php?id='.$id.'&amp;mode=edit&amp;fid='.$column->id;
+                $icons = $OUTPUT->action_icon($url, $icon);
+
+                $icon = new pix_icon('t/delete', $langdelete, '', array('class' => 'iconsmall'));
+                $url = 'manage.php?id='.$id.'&amp;mode=delete&amp;fid='.$column->id;
+                $icons .= $OUTPUT->action_icon($url, $icon);
             } else {
                 $icons = '';
             }
@@ -247,7 +245,7 @@ function dataplus_edit() {
         $name = $existing->name;
         $type = $existing->form_field_type;
 
-        if ($type!=$form->fieldtype0) {
+        if ($type != $form->fieldtype0) {
             if ($type == 'file' || $type == 'image') {
                 $dataplusfilehelper->delete_column_files($name, $type);
             }
@@ -261,7 +259,7 @@ function dataplus_edit() {
             if (!empty($form->fieldmultiple0)) {
                 $details->form_field_type = 'menumultiple';
             } else {
-                $details->form_field_type= 'menusingle';
+                $details->form_field_type = 'menusingle';
             }
 
             $details->form_field_options = $form->fieldoptions0;
@@ -448,7 +446,7 @@ dataplus_base_setup('/mod/dataplus/manage.php');
 dataplus_page_setup(get_string('manage_manage', 'dataplus'));
 
 // If we're in dbsetup mode, don't show navigational tabs.
-if ($mode!='dbsetup') {
+if ($mode != 'dbsetup') {
     $currenttab = 'manage';
 
     include('tabs.php');
@@ -457,9 +455,9 @@ if ($mode!='dbsetup') {
 if (isloggedin() && has_capability('mod/dataplus:databaseedit', $context, $USER->id)) {
     $group = optional_param('group', null, PARAM_TEXT);
 
-    if ($mode=='edit' || ($mode=='editsubmit' && is_null($group))) {
+    if ($mode == 'edit' || ($mode == 'editsubmit' && is_null($group))) {
         dataplus_edit();
-    } else if ($mode=='delete' || ($mode=='deletesubmit' && is_null($group))) {
+    } else if ($mode == 'delete' || ($mode == 'deletesubmit' && is_null($group))) {
         dataplus_delete();
     } else if ($mode == 'cleardata') {
         dataplus_clear_data();

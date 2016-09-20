@@ -43,7 +43,7 @@ function datapluscursorPosition() {
         obj.selLeft.setEndPoint("EndToStart", obj.selection); // align them
 
         dataplusCursorStart = obj.selLeft.text.length;
-        dataplusCursorEnd = obj.selLeft.text.length +  obj.selection.text.length;
+        dataplusCursorEnd = obj.selLeft.text.length + obj.selection.text.length;
     } else if (dataplusisdefined(obj, 'selectionStart')) {
         dataplusCursorStart = obj.selectionStart;
         dataplusCursorEnd = obj.selectionEnd;

@@ -80,4 +80,7 @@ div.dataplus_instructions {
 .dataplus_import_complete {
     padding-top: 30px;
 }
+
+img.dataplus_image_field {
+    width: 100%;
 }

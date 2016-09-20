@@ -16,9 +16,8 @@
 
 /**
  * Form for adding columns.
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
@@ -54,7 +53,7 @@ class dataplus_manage_form extends moodleform {
             $mform->addElement('static', 'br' . $i, '', '<br/>');
 
             $langfname = get_string('fieldname', 'dataplus');
-            $mform->addElement('text', 'fieldname' .  $i, $langfname, array('class'=>'dataplus_manage_field'));
+            $mform->addElement('text', 'fieldname' . $i, $langfname, array('class' => 'dataplus_manage_field'));
 
             $options = $dataplusdb->get_field_types();
 
@@ -69,12 +68,12 @@ class dataplus_manage_form extends moodleform {
             $langmult = get_string('allowmultiple', 'dataplus');
             $mform->addElement('checkbox', 'fieldmultiple' .  $i, $langmult);
 
-            $mform->disabledIf('fieldmultiple' .  $i, 'fieldtype' .  $i, '', 'menu');
+            $mform->disabledIf('fieldmultiple' .  $i, 'fieldtype' .  $i, 'ne', 'menu');
 
             $langopt = get_string('options', 'dataplus');
             $mform->addElement('textarea', 'fieldoptions' .  $i, $langopt, 'rows="5" cols="40"');
 
-            $mform->disabledIf('fieldoptions' .  $i, 'fieldtype' .  $i, '', 'menu');
+            $mform->disabledIf('fieldoptions' .  $i, 'fieldtype' .  $i, 'ne', 'menu');
 
             if ($groupmode > 0) {
                 $groups["0"] = get_string('allparticipants');

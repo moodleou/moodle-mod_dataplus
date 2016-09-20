@@ -16,9 +16,8 @@
 
 /**
  * Generates the import screen and processes import of DataPlus dbs.
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -50,7 +49,7 @@ function dataplus_import() {
 
         if (substr($zipname, -3) != 'zip') {
             // If the uploaded file does not appear to be a zip archive, get an error message.
-            $valid = get_string('validate_file_suffix', 'dataplus');
+            $invalid = get_string('validate_file_suffix', 'dataplus');
         } else {
             $copyto['contextid'] = $contextid = $context->id;
             $copyto['component'] = $component = 'mod_dataplus';
@@ -89,36 +88,42 @@ function dataplus_import() {
             if (!is_null($dbname)) {
                 // Run the database validation (sets locking to false to prevent performance gotcha).
                 $dataplusdb->clean_up();
-                $dataplusdb = new sqlite3_db_dataplus(false, $zippath.'/'.$dbname, true);
-                $valid = $dataplusdb->validate_database();
-                $column = array(new stdClass());
-
-                if (isset($form->remgroups) && $form->remgroups == 1) {
-                    $column[0]->name = 'group_id';
-                    $column[0]->value = '';
-
-                    $dataplusdb->update_dataplus_record($column);
+                try {
+                    $dataplusdb = new sqlite3_db_dataplus(false, $zippath . '/' . $dbname, true);
+                } catch (Exception $e) {
+                    $invalid = get_string('errorimportfailed', 'dataplus');
                 }
 
-                if ($CFG->wwwroot != $dataplusdb->get_file_db_domain()) {
-                    $column[0]->name = 'last_update_id';
-                    $column[0]->value = '-1';
+                if (!isset($invalid)) {
+                    $column = array(new stdClass());
 
-                    $dataplusdb->update_dataplus_record($column);
+                    if (isset($form->remgroups) && $form->remgroups == 1) {
+                        $column[0]->name = 'group_id';
+                        $column[0]->value = '';
 
-                    $column[0]->name = 'creator_id';
-                    $column[0]->value = '-1';
+                        $dataplusdb->update_dataplus_record($column);
+                    }
 
-                    $dataplusdb->update_dataplus_record($column);
+                    if ($CFG->wwwroot != $dataplusdb->get_file_db_domain()) {
+                        $column[0]->name = 'last_update_id';
+                        $column[0]->value = '-1';
+
+                        $dataplusdb->update_dataplus_record($column);
+
+                        $column[0]->name = 'creator_id';
+                        $column[0]->value = '-1';
+
+                        $dataplusdb->update_dataplus_record($column);
+                    }
                 }
             } else {
-                $valid = get_string('validate_no_db', 'dataplus');
+                $invalid = get_string('validate_no_db', 'dataplus');
             }
         }
 
         // If the database is valid, copy it from the temp dir to the file repository
         // and print a confirmation.
-        if ($valid === true) {
+        if (!isset($invalid)) {
             $imagepath = $zippath . '/images';
             $filepath = $zippath . '/files';
             $longtextpath = $zippath . '/longtext';
@@ -153,7 +158,7 @@ function dataplus_import() {
             print html_writer::end_div();
         } else {
             // If it's not valid, print an error message.
-            print html_writer::div($valid);
+            print html_writer::div($invalid);
         }
     }
 
@@ -164,7 +169,7 @@ dataplus_base_setup('/mod/dataplus/import.php');
 dataplus_page_setup(get_string('manage_import', 'dataplus'));
 
 // Don't show the navigation tabs if we're in setup mode.
-if ($mode!='dbsetup') {
+if ($mode != 'dbsetup') {
     $currenttab = 'manage';
     include('tabs.php');
 }

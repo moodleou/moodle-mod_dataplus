@@ -15,24 +15,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $logs = array(
-    array('module'=>'dataplus', 'action'=>'createcolumn', 'mtable'=>'dataplus', 'field'=>'name'),
-    array('module'=>'dataplus', 'action'=>'editcolumn', 'mtable'=>'dataplus', 'field'=>'name'),
-    array('module'=>'dataplus', 'action'=>'deletecolumn', 'mtable'=>'dataplus', 'field'=>'name'),
-    array('module'=>'dataplus', 'action'=>'view', 'mtable'=>'dataplus', 'field'=>'name'),
-    array('module'=>'dataplus', 'action'=>'update', 'mtable'=>'dataplus', 'field'=>'name'),
-    array('module'=>'dataplus', 'action'=>'insert', 'mtable'=>'dataplus', 'field'=>'name'),
-    array('module'=>'dataplus', 'action'=>'delete', 'mtable'=>'dataplus', 'field'=>'name'),
-    array('module'=>'dataplus', 'action'=>'search', 'mtable'=>'dataplus', 'field'=>'name'),
-    array('module'=>'dataplus', 'action'=>'update comment', 'mtable'=>'dataplus', 'field'=>'name'),
-    array('module'=>'dataplus', 'action'=>'insert comment', 'mtable'=>'dataplus', 'field'=>'name'),
-    array('module'=>'dataplus', 'action'=>'delete comment', 'mtable'=>'dataplus', 'field'=>'name'),
-    );
+    array('module' => 'dataplus', 'action' => 'createcolumn', 'mtable' => 'dataplus', 'field' => 'name'),
+    array('module' => 'dataplus', 'action' => 'editcolumn', 'mtable' => 'dataplus', 'field' => 'name'),
+    array('module' => 'dataplus', 'action' => 'deletecolumn', 'mtable' => 'dataplus', 'field' => 'name'),
+    array('module' => 'dataplus', 'action' => 'view', 'mtable' => 'dataplus', 'field' => 'name'),
+    array('module' => 'dataplus', 'action' => 'update', 'mtable' => 'dataplus', 'field' => 'name'),
+    array('module' => 'dataplus', 'action' => 'insert', 'mtable' => 'dataplus', 'field' => 'name'),
+    array('module' => 'dataplus', 'action' => 'delete', 'mtable' => 'dataplus', 'field' => 'name'),
+    array('module' => 'dataplus', 'action' => 'search', 'mtable' => 'dataplus', 'field' => 'name'),
+    array('module' => 'dataplus', 'action' => 'update comment', 'mtable' => 'dataplus', 'field' => 'name'),
+    array('module' => 'dataplus', 'action' => 'insert comment', 'mtable' => 'dataplus', 'field' => 'name'),
+    array('module' => 'dataplus', 'action' => 'delete comment', 'mtable' => 'dataplus', 'field' => 'name'),
+);

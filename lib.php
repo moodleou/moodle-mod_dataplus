@@ -15,9 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,19 +25,27 @@
  * @return mixed True if module supports feature, null if doesn't know
  */
 function dataplus_supports($feature) {
-    switch($feature) {
-        case FEATURE_GROUPS:                  return true;
-        case FEATURE_GROUPINGS:               return true;
-        case FEATURE_GROUPMEMBERSONLY:        return true;
-        case FEATURE_MOD_INTRO:               return true;
-        case FEATURE_BACKUP_MOODLE2:          return true;
-        case FEATURE_COMPLETION_TRACKS_VIEWS: return true;
-        case FEATURE_COMPLETION_HAS_RULES:    return true;
-        case FEATURE_RATE:                    return true;
-        case FEATURE_GRADE_HAS_GRADE:         return true;
-        case FEATURE_GRADE_OUTCOMES:          return true;
-
-        default: return null;
+    switch ($feature) {
+        case FEATURE_GROUPS:
+            return true;
+        case FEATURE_GROUPINGS:
+            return true;
+        case FEATURE_MOD_INTRO:
+            return true;
+        case FEATURE_BACKUP_MOODLE2:
+            return true;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return true;
+        case FEATURE_COMPLETION_HAS_RULES:
+            return true;
+        case FEATURE_RATE:
+            return true;
+        case FEATURE_GRADE_HAS_GRADE:
+            return true;
+        case FEATURE_GRADE_OUTCOMES:
+            return true;
+        default:
+            return null;
     }
 }
 
@@ -106,7 +113,7 @@ function dataplus_delete_instance($id) {
     global $CFG;
 
     $cm = get_coursemodule_from_instance('dataplus', $id);
-    $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+    $context = context_module::instance($cm->id);
     $fs = get_file_storage();
     $fs->delete_area_files($context->id);
 
@@ -193,7 +200,7 @@ function dataplus_pluginfile($course, $cm, $context, $filearea, $args, $forcedow
 
     $postid = (int)array_shift($args);
 
-    if (!$dataplus= $DB->get_record('dataplus', array('id'=>$cm->instance))) {
+    if (!$dataplus = $DB->get_record('dataplus', array('id' => $cm->instance))) {
         return false;
     }
 
@@ -236,8 +243,8 @@ function dataplus_user_complete($course, $user, $mod, $dataplus) {
 
     echo "<p>";
 
-    $basicconditions = array('cmid'=>$dataplus->id, 'userid'=>$user->id);
-    $conditions = array_merge($basicconditions, array('action'=>'view'));
+    $basicconditions = array('cmid' => $dataplus->id, 'userid' => $user->id);
+    $conditions = array_merge($basicconditions, array('action' => 'view'));
 
     if ($records = $DB->get_records('log', $conditions, 'time DESC')) {
         echo get_string("usercompleted_view", "dataplus", count($records)).'<br/>';
@@ -245,7 +252,7 @@ function dataplus_user_complete($course, $user, $mod, $dataplus) {
         echo get_string("usercompleted_view", "dataplus", 0).'<br/>';
     }
 
-    $conditions = array_merge($basicconditions, array('action'=>'insert'));
+    $conditions = array_merge($basicconditions, array('action' => 'insert'));
 
     if ($records = $DB->get_records('log', $conditions, 'time DESC')) {
         echo get_string("usercompleted_insert", "dataplus", count($records)).'<br/>';
@@ -253,7 +260,7 @@ function dataplus_user_complete($course, $user, $mod, $dataplus) {
         echo get_string("usercompleted_insert", "dataplus", 0).'<br/>';
     }
 
-    $conditions = array_merge($basicconditions, array('action'=>'update'));
+    $conditions = array_merge($basicconditions, array('action' => 'update'));
 
     if ($records = $DB->get_records('log', $conditions, 'time DESC')) {
         echo get_string("usercompleted_updated", "dataplus", count($records)).'<br/>';
@@ -261,7 +268,7 @@ function dataplus_user_complete($course, $user, $mod, $dataplus) {
         echo get_string("usercompleted_updated", "dataplus", 0).'<br/>';
     }
 
-    $conditions = array_merge($basicconditions, array('action'=>'delete'));
+    $conditions = array_merge($basicconditions, array('action' => 'delete'));
 
     if ($records = $DB->get_records('log', $conditions, 'time DESC')) {
         echo get_string("usercompleted_deleted", "dataplus", count($records)).'<br/>';
@@ -293,9 +300,7 @@ function dataplus_get_post_actions() {
  * @param cm_info $cm
  */
 function dataplus_cm_info_dynamic(cm_info $cm) {
-    if (!has_capability('mod/dataplus:view',
-            get_context_instance(CONTEXT_MODULE, $cm->id))) {
-        $cm->uservisible = false;
+    if (!has_capability('mod/dataplus:view', context_module::instance($cm->id))) {
         $cm->set_available(false);
     }
 }
@@ -343,7 +348,8 @@ function dataplus_get_user_grades($dataplus, $userid=0) {
     $moduleid   = intval($options->moduleid);
 
     // Going direct to the db for the context id seems wrong.
-    list($ctxselect, $ctxjoin) = context_instance_preload_sql('cm.id', CONTEXT_MODULE, 'ctx');
+    $ctxselect = ', ' . context_helper::get_preload_record_columns_sql('ctx');
+    $ctxjoin = 'LEFT JOIN {context} ctx ON (ctx.instanceid = cm.id AND ctx.contextlevel = ' . CONTEXT_MODULE . ')';
     $sql = "SELECT cm.* $ctxselect
             FROM {course_modules} cm
             LEFT JOIN {modules} mo ON mo.id = cm.module
@@ -351,9 +357,9 @@ function dataplus_get_user_grades($dataplus, $userid=0) {
             WHERE mo.name=:modulename AND
             m.id=:moduleid";
     $contextrecord = $DB->get_record_sql($sql,
-        array('modulename'=>$modulename, 'moduleid'=>$moduleid), '*', MUST_EXIST);
+        array('modulename' => $modulename, 'moduleid' => $moduleid), MUST_EXIST);
     $contextid = $contextrecord->ctxid;
-    $context = get_context_instance_by_id($contextid);
+    $context = context::instance_by_id($contextid);
 
     $params = array();
     $params['contextid'] = $contextid;
@@ -388,10 +394,11 @@ function dataplus_get_user_grades($dataplus, $userid=0) {
 
     // There's non way of creating a relationship to the userid, so we hack the results to add it.
     $rawresults = $DB->get_records_sql($sql, $params);
-    $results = array($userid => $rawresults['mod_dataplus']);
-    $results[$userid]->userid = $userid;
+    $results = false;
 
-    if ($results) {
+    if ($rawresults) {
+        $results = array($userid => $rawresults['mod_dataplus']);
+        $results[$userid]->userid = $userid;
         $scale = null;
         $max = 0;
         if ($options->scaleid >= 0) {
@@ -479,12 +486,12 @@ function dataplus_upgrade_grades() {
     $rs = $DB->get_recordset_sql($sql);
     if ($rs->valid()) {
         $pbar = new progress_bar('dataplusupgradegrades', 500, true);
-        $i=0;
+        $i = 0;
         foreach ($rs as $data) {
             $i++;
-            upgrade_set_timeout(60*5); // Set up timeout, may also abort execution.
+            upgrade_set_timeout(60 * 5); // Set up timeout, may also abort execution.
             data_update_grades($data, 0, false);
-            $pbar->update($i, $count, get_string('updatinggrades', 'dataplus', ($i/$count)));
+            $pbar->update($i, $count, get_string('updatinggrades', 'dataplus', ($i / $count)));
         }
     }
     $rs->close();
@@ -501,7 +508,7 @@ function dataplus_upgrade_grades() {
 function dataplus_grade_item_update($dataplus, $grades=null) {
     global $CFG;
     require_once($CFG->libdir.'/gradelib.php');
-    $params = array('itemname'=>$dataplus->name, 'idnumber'=>$dataplus->cmidnumber);
+    $params = array('itemname' => $dataplus->name, 'idnumber' => $dataplus->cmidnumber);
 
     if (!$dataplus->assessed or $dataplus->scale == 0) {
         $params['gradetype'] = GRADE_TYPE_NONE;
@@ -516,7 +523,7 @@ function dataplus_grade_item_update($dataplus, $grades=null) {
         $params['scaleid']   = -$dataplus->scale;
     }
 
-    if ($grades  === 'reset') {
+    if ($grades === 'reset') {
         $params['reset'] = true;
         $grades = null;
     }
@@ -537,7 +544,7 @@ function dataplus_grade_item_delete($dataplus) {
     require_once($CFG->libdir.'/gradelib.php');
 
     return grade_update('mod/dataplus', $dataplus->course, 'mod', 'dataplus',
-        $dataplus->id, 0, null, array('deleted'=>1));
+        $dataplus->id, 0, null, array('deleted' => 1));
 }
 
 /**
@@ -556,7 +563,7 @@ function dataplus_rating_get_item_fields() {;
  * @return array an associative array of the user's rating permissions
  */
 function dataplus_rating_permissions($contextid, $component, $ratingarea) {
-    $context = get_context_instance_by_id($contextid, MUST_EXIST);
+    $context = context::instance_by_id($contextid, MUST_EXIST);
     if ($component != 'mod_dataplus' || $ratingarea != 'record') {
         return null;
     }
@@ -602,10 +609,10 @@ function dataplus_rating_validate($params) {
     }
 
     $sql = "SELECT d.*
-            FROM {dataplus} as d
-            INNER JOIN {course_modules} as cm
+            FROM {dataplus} d
+            INNER JOIN {course_modules} cm
             ON cm.instance = d.id
-            INNER JOIN {modules} as m
+            INNER JOIN {modules} m
             ON cm.module = m.id
             WHERE cm.id = :itemid AND m.name = 'dataplus'";
     $sqlparams = array('itemid' => $params['context']->__get('instanceid'));
@@ -674,7 +681,7 @@ function dataplus_rating_validate($params) {
     }
 
     $cm = get_coursemodule_from_instance('dataplus', $dataplus->id, $dataplus->course, false, MUST_EXIST);
-    $context = get_context_instance(CONTEXT_MODULE, $cm->id, MUST_EXIST);
+    $context = context_module::instance($cm->id);
 
     // If the supplied context doesnt match the item's context.
     if ($context->id != $params['context']->id) {
@@ -697,7 +704,7 @@ function dataplus_scale_used ($dataplusid, $scaleid) {
 
     $return = false;
 
-    $rec = $DB->get_record("dataplus", array("id"=>$glossaryid, "scale"=>-$scaleid));
+    $rec = $DB->get_record("dataplus", array("id" => $dataplusid, "scale" => -$scaleid));
 
     if (!empty($rec)  && !empty($scaleid)) {
         $return = true;
@@ -718,7 +725,7 @@ function dataplus_scale_used ($dataplusid, $scaleid) {
 function dataplus_scale_used_anywhere($scaleid) {
     global $DB;
 
-    if ($scaleid and $DB->record_exists('dataplus', array('scale'=>-$scaleid))) {
+    if ($scaleid and $DB->record_exists('dataplus', array('scale' => -$scaleid))) {
         return true;
     } else {
         return false;
@@ -751,7 +758,7 @@ function dataplus_get_file_info($browser, $areas, $course, $cm, $dpcontext, $fil
         $itemid, $filepath, $filename) {
     global $CFG, $DB, $dataplusfilehelper, $dataplus, $context;
 
-    $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+    $context = context_module::instance($cm->id);
 
     if ($context->contextlevel != CONTEXT_MODULE) {
         return null;
@@ -769,7 +776,7 @@ function dataplus_get_file_info($browser, $areas, $course, $cm, $dpcontext, $fil
     require_once($CFG->dirroot . '/mod/dataplus/sqlite3_db_dataplus.php');
     require_once($CFG->dirroot . '/mod/dataplus/dataplus_file_helper.php');
 
-    if (! $dataplus = $DB->get_record("dataplus", array("id"=>$cm->instance))) {
+    if (!$dataplus = $DB->get_record("dataplus", array("id" => $cm->instance))) {
         print_error("Course module is incorrect");
     }
     $dataplusfilehelper = new dataplus_file_helper($dataplus->id, $context);
@@ -813,16 +820,4 @@ function dataplus_get_file_info($browser, $areas, $course, $cm, $dpcontext, $fil
     $dataplusdb->clean_up();
     return new file_info_stored($browser, $context, $storedfile, $urlbase, $filearea,
             $itemid, true, true, false);
-}
-
-/**
- * Periodic cleanup task.
- */
-function dataplus_cron() {
-    global $CFG;
-    require_once($CFG->dirroot . '/mod/dataplus/locallib.php');
-    mtrace('  Removing old temporary dataplus files.');
-    $removed = dataplus_remove_temp_files();
-    mtrace('  Removed ' . $removed . ' old temporary dataplus files.');
-    return true;
 }

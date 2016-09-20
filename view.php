@@ -17,9 +17,8 @@
 /**
  * Displays screens for viewing, searching and editing db data and
  * processing actions.
- * @package mod
- * @subpackage dataplus
- * @copyright 2011 The Open University
+ * @package mod_dataplus
+ * @copyright 2015 The Open University
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -251,7 +250,7 @@ function dataplus_view_single_record($msg = null, $recordid = null) {
         $parameters[0] = new stdClass();
         $parameters[0]->name = 'id';
         $parameters[0]->value = $recordid;
-        $parameters[0]->operator ='equals';
+        $parameters[0]->operator = 'equals';
         $parameters = array_merge($parameters, $colparams);
 
         // Get the start point for records on the page and the upper limit.
@@ -399,18 +398,18 @@ function dataplus_amend_record() {
         $parameters = array(new stdClass());
         $parameters[0]->name = 'id';
         $parameters[0]->value = $updateid;
-        $parameters[0]->operator ='equals';
+        $parameters[0]->operator = 'equals';
 
         $prevresult = $dataplusdb->query_dataplus_database_single(null, $parameters);
 
         // If the current group doesn't have the right to alter the record, return.
         if (!dataplus_check_groups($prevresult, true, true)) {
-            print_error(get_string('group_edit_record', 'dataplus'));
+            print_error('group_edit_record', 'dataplus');
         }
 
         // If the user can't edit the record...
         if (!dataplus_check_capabilities($prevresult->creator_id)) {
-            print_error(get_string('capablilty_edit_record', 'dataplus'));
+            print_error('capablilty_edit_record', 'dataplus');
         }
     }
 
@@ -436,7 +435,7 @@ function dataplus_amend_record() {
             $url .= '&rs=true';
         }
 
-        if ($oldmode !='single') {
+        if ($oldmode != 'single') {
             $url .= "#{$updateid}";
         }
     } else {
@@ -684,18 +683,18 @@ function dataplus_delete_record() {
     $parameters = array(new stdClass());
     $parameters[0]->name = 'id';
     $parameters[0]->value = $updateid;
-    $parameters[0]->operator ='equals';
+    $parameters[0]->operator = 'equals';
 
     $result = $dataplusdb->query_dataplus_database_single(null, $parameters);
 
     // If the current group doesn't have the right to alter the record, error.
     if (!dataplus_check_groups($result, true, true)) {
-        print_error(get_string('group_delete_record', 'dataplus'));
+        print_error('group_delete_record', 'dataplus');
     }
 
     // If the user can't edit the record...
     if (!dataplus_check_capabilities($result->creator_id)) {
-        print_error(get_string('capablilty_delete_record', 'dataplus'));
+        print_error('capablilty_delete_record', 'dataplus');
     }
 
     // This cures a bug whereby if the current record is the only one on a page and the last in
@@ -710,7 +709,7 @@ function dataplus_delete_record() {
 
     $currentrecords = $dataplusdb->count_dataplus_database_query($viewparams);
 
-    if ($pagestart == ($currentrecords-1)) {
+    if ($pagestart == ($currentrecords - 1)) {
         $pagestart = 0;
     }
 
@@ -826,7 +825,7 @@ function dataplus_search_records() {
     }
 
     // Set the session form type.
-    if ($mode =='search' || $mode == 'searchadvanced') {
+    if ($mode == 'search' || $mode == 'searchadvanced') {
         $SESSION->dataplus_formtype = $formtype;
     }
 
@@ -853,7 +852,7 @@ function dataplus_search_records() {
         // Build the parameters to be used in the SQL query.
         foreach ($form as $name => $value) {
             $value = trim($value);
-            if (in_array($name, $colnames)  && $value!="null" && $value != '') {
+            if (in_array($name, $colnames) && $value != "null" && $value != '') {
                 if (in_array($name, $datecols)) {
                     if ($value == '-3600' || $value == '39600') {
                         continue;
@@ -887,6 +886,9 @@ function dataplus_search_records() {
             if (!empty($form->$fname)) {
                 $sortname = 'sort_options' . $i;
 
+                if (!isset($order[$form->$fname])) {
+                    $order[$form->$fname] = new stdClass();
+                }
                 $order[$form->$fname]->name = $form->$fname;
 
                 if (isset($form->$sortname)) {
@@ -1080,7 +1082,7 @@ function dataplus_delete_comment($commenttemplate = null) {
     $parameters[0] = new stdClass();
     $parameters[0]->name = 'id';
     $parameters[0]->value = $updateid;
-    $parameters[0]->operator ='equals';
+    $parameters[0]->operator = 'equals';
 
     $prevresult = $dataplusdb->get_comment($updateid);
 
@@ -1111,46 +1113,51 @@ if (($mode == 'delete' || $mode == 'deletesubmit') && empty($group)) {
         dataplus_delete_record();
     } else {
         $url = $CFG->wwwroot.'/mod/dataplus/view.php?mode=view&amp;id='.$id;
-        print_error(get_string('capablilty_delete_database', 'dataplus'));
+        print_error('capablilty_delete_database', 'dataplus', $url);
     }
 } else if (in_array($mode, $editingmodes) && empty($group)) {
     if ($editcheck || ($groupcheck && $capabilitycheck)) {
         dataplus_amend_record();
     } else {
         $url = $CFG->wwwroot.'/mod/dataplus/view.php?mode=view&amp;id=' . $id;
-        print_error(get_string('capablilty_insert_database', 'dataplus'));
+        print_error('capablilty_insert_database', 'dataplus', $url);
     }
 } else if (($mode == 'single') && empty($group)) {
     if (has_capability('mod/dataplus:view', $context, $USER->id)) {
         dataplus_view_single_record();
     } else {
-        $url = $CFG->wwwroot.'/mod/dataplus/view.php?mode=view&amp;id=' . $id;
-        print_error(get_string('capablilty_view_database', 'dataplus'));
+        $url = $CFG->wwwroot.'/course/view.php?id=' . $COURSE->id;
+        print_error('capablilty_view_database', 'dataplus', $url);
     }
 } else if (in_array($mode, array('search', 'searchadvanced', 'searchamend')) && empty($group)) {
     if (has_capability('mod/dataplus:view', $context, $USER->id)) {
         dataplus_search_records();
     } else {
-        $url = $CFG->wwwroot.'/mod/dataplus/view.php?mode=view&amp;id=' . $id;
-        print_error(get_string('capablilty_view_database', 'dataplus'));
+        $url = $CFG->wwwroot.'/course/view.php?id=' . $COURSE->id;
+        print_error('capablilty_view_database', 'dataplus', $url);
     }
 } else if ($mode == 'searchresults' && empty($group)) {
     if (has_capability('mod/dataplus:view', $context, $USER->id)) {
+        if (empty($SESSION->dataplus_search_parameters)) {
+            // The session will be empty if a search url is input directly.
+            $url = $CFG->wwwroot.'/mod/dataplus/view.php?mode=view&amp;id=' . $id;
+            print_error('searchnotavailable', 'dataplus', $url);
+        }
         $parameters = $SESSION->dataplus_search_parameters;
         $order = $SESSION->dataplus_search_order;
 
         dataplus_view_records(null, $parameters, $order);
     } else {
-        $url = $CFG->wwwroot.'/mod/dataplus/view.php?mode=view&amp;id=' . $id;
-        print_error(get_string('capablilty_view_database', 'dataplus'));
+        $url = $CFG->wwwroot.'/course/view.php?id=' . $COURSE->id;
+        print_error('capablilty_view_database', 'dataplus', $url);
     }
 } else {
     if (has_capability('mod/dataplus:view', $context, $USER->id)) {
         $mode = 'view';
         dataplus_view_records();
     } else {
-        $url = $CFG->wwwroot.'/mod/dataplus/view.php?mode=view&amp;id=' . $id;
-        print_error(get_string('capablilty_view_database', 'dataplus'));
+        $url = $CFG->wwwroot.'/course/view.php?id=' . $COURSE->id;
+        print_error('capablilty_view_database', 'dataplus', $url);
     }
 }
 
