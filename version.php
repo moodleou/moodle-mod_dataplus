@@ -22,6 +22,6 @@
 
 $plugin->version  = 2015050700;
 $plugin->requires = 2013051402.00;
-$plugin->release  = '2.3 (Build: 2012062502)';
+$plugin->release  = '2.4 (Build: 2016092000)';
 $plugin->outestssufficient = true;
 $plugin->component = 'mod_dataplus';

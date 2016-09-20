@@ -2,69 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7fb87415-cdb6-47ed-8d86-b5c22d3e3ec8" name="Default" comment="Tested against M3.1">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fixtures/dataplus1.zip" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fixtures/dataplus2.zip" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fixtures/dataplus3.zip" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fixtures/testfile.docx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fixtures/testimage.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fixtures/unit1_front.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/moodle-mod_dataplus.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/acct_data_report.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/column_created.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/column_deleted.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/column_edited.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/comment_deleted.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/comment_inserted.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/comment_updated.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/course_module_instance_list_viewed.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/data_cleared.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/data_deleted.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/data_inserted.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/data_searched.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/data_updated.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/data_viewed.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/event/template_saved.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/task/file_cleanup.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/tasks.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/exportlib.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/behat/behat_mod_dataplus.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/behat/dataplus_basic.feature" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/behat/dataplus_export.feature" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/behat/dataplus_student.feature" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/behat/dataplus_template.feature" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/dataplus_test.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/fixtures/testfile.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/generator/lib.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/generator_test.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dataplus.js" afterPath="$PROJECT_DIR$/dataplus.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dataplus_file_helper.php" afterPath="$PROJECT_DIR$/dataplus_file_helper.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/access.php" afterPath="$PROJECT_DIR$/db/access.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/install.xml" afterPath="$PROJECT_DIR$/db/install.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/log.php" afterPath="$PROJECT_DIR$/db/log.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/export_download.php" afterPath="$PROJECT_DIR$/export_download.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/import.php" afterPath="$PROJECT_DIR$/import.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lang/en/dataplus.php" afterPath="$PROJECT_DIR$/lang/en/dataplus.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib.php" afterPath="$PROJECT_DIR$/lib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/locallib.php" afterPath="$PROJECT_DIR$/locallib.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manage.php" afterPath="$PROJECT_DIR$/manage.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manage_form.php" afterPath="$PROJECT_DIR$/manage_form.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mod_form.php" afterPath="$PROJECT_DIR$/mod_form.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/search_form.php" afterPath="$PROJECT_DIR$/search_form.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sqlite3_db.php" afterPath="$PROJECT_DIR$/sqlite3_db.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sqlite3_db_dataplus.php" afterPath="$PROJECT_DIR$/sqlite3_db_dataplus.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/styles.css" afterPath="$PROJECT_DIR$/styles.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tabs.php" afterPath="$PROJECT_DIR$/tabs.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/template_jscss_user.php" afterPath="$PROJECT_DIR$/template_jscss_user.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/template_view_form.php" afterPath="$PROJECT_DIR$/template_view_form.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates.php" afterPath="$PROJECT_DIR$/templates.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/version.php" afterPath="$PROJECT_DIR$/version.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view.php" afterPath="$PROJECT_DIR$/view.php" />
     </list>
     <ignored path="moodle-mod_dataplus.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -84,25 +23,23 @@
     <favorites_list name="moodle-mod_dataplus" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="version.php" pinned="false" current-in-tab="false">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="version.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/version.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="187">
+              <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dataplus_test.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dataplus_test.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/dataplus_test.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="47" column="15" selection-start-line="47" selection-start-column="15" selection-end-line="47" selection-end-column="15" />
-              <folding>
-                <element signature="e#6#57#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="37">
+              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -119,6 +56,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/tests/dataplus_test.php" />
+        <option value="$PROJECT_DIR$/version.php" />
       </list>
     </option>
   </component>
@@ -145,6 +83,9 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="1" />
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -160,6 +101,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -168,20 +111,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="moodle-mod_dataplus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="moodle-mod_dataplus" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -207,6 +138,12 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -240,12 +177,13 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1474364043957</updated>
-      <workItem from="1474364045094" duration="467000" />
+      <workItem from="1474364045094" duration="788000" />
+      <workItem from="1474364840049" duration="39000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="467000" />
+    <option name="totallyTimeSpent" value="827000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1272" y="-8" width="1296" height="1040" extended-state="6" />
@@ -253,7 +191,6 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32975295" sideWeight="0.496875" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32975295" sideWeight="0.503125" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -261,12 +198,14 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32975295" sideWeight="0.496875" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Grunt " active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -291,18 +230,26 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dataplus_file_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/version.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/dataplus_test.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataplus_file_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="34" column="21" selection-start-line="34" selection-start-column="21" selection-end-line="34" selection-end-column="21" />
           <folding />
         </state>
       </provider>
@@ -324,11 +271,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/dataplus_test.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="47" column="15" selection-start-line="47" selection-start-column="15" selection-end-line="47" selection-end-column="15" />
-          <folding>
-            <element signature="e#6#57#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="37">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/version.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
+          <folding />
         </state>
       </provider>
     </entry>
